@@ -1,0 +1,55 @@
+.voting-round-category {
+    display: flex;
+    justify-content: center;
+}
+
+.vote-button-container {
+    display: flex;
+    justify-content: center;
+}
+
+.vote-container {
+    position: relative;
+    margin-top: 2em;
+}
+
+.vote-container-header {
+    top: 0;
+    width: 100%;
+}
+
+.voting-options-list {
+    list-style: none;
+    margin-block-start: 0 !important;
+    padding-inline-start: 0 !important;
+}
+
+.divider {
+    width: 80%;
+    margin-top: 2em;
+}
+
+.option-keeper-username {
+    display: flex;
+    justify-content: center;
+    
+}
+
+.option-trackTitle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5em !important;
+}
+
+.album-art {
+    display: flex;
+    justify-content: center;
+}
+
+.voting-option-item-container-selected {
+    background-color: rgb(137, 231, 235);
+}
+
+.voting-options-list-container {
+    margin-top: 5em;
+}

@@ -1,0 +1,147 @@
+
+
+.divider {
+    width: 80%;
+    margin-top: 2em;
+}
+
+.header-container {
+    width: calc(100% - 2em);
+    position: fixed;
+    top: 0;
+    z-index: 2;
+}
+
+.action-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2em;
+}
+
+.track-search-container {
+    margin-left: 1em;
+    margin-right: 1em;
+    overflow-y: hidden;
+    position: relative;
+    color: whitesmoke;
+}
+
+.track-search-background {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: blur(2em) opacity(0.8) brightness(100%);
+    position: relative;
+}
+
+.search-bar {
+    border: none;
+    margin-left: .5em;
+    margin-right: .5em;
+    width: 85%;
+    height: 100%;
+    background: none;
+    color: white;
+}
+
+.search-bar-container {
+    border: 1px solid grey;
+    border-radius: 25px;
+    height: 2em;
+}
+
+.search-icon {
+    margin-left: .5em !important;
+}
+
+.result-list-container {
+    margin-top: 12em;
+}
+
+.result-list {
+    list-style: none;
+    margin-block-start: 0 !important;
+    padding-inline-start: 0 !important;
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 450px;
+    margin-block-end: 1em !important;
+}
+
+.result-track-explicit-marker {
+    height: .3em;
+    width: .3em;
+    background-color: red;
+    border-radius: 25px;
+    margin-top: .5em;
+}
+
+.result-item {
+    border: 1px solid grey;
+}
+
+.result-track-explicit {
+    display: flex;
+    flex-direction: row;
+}
+
+.result-track-explicit-label {
+    margin-left: .5em;
+    font-weight: bold;
+    font-size: .7em;
+}
+
+.result-artist-image {
+    height: 4em;
+    width: 4em;
+    border-radius: 25px;
+    margin-left: .6em;
+    margin-top: .6em;
+    margin-right: 2em;
+}
+
+.result {
+    display: flex;
+    flex-direction: row;
+}
+
+.result-track-name-container {
+    margin-top: 1em;
+    margin-right: 1em;
+}
+
+.result-item-selected {
+    background-color: rgb(137, 231, 235);
+}
+
+.result-artist-name {
+
+}
+
+.result-track-name {
+    margin-bottom: 0;
+}
+
+.successful-add {
+    background-color: green;
+    position: fixed;
+    z-index: 3;
+    width: 100%;
+    color: whitesmoke;
+    height: 10%;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    top: 0;
+}
+
+.success-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}

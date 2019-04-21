@@ -8,6 +8,38 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+h3 {
+  font-size: 1.5em;
+}
+
+@media (min-width: 1012px) {
+  body { 
+      font-size: 15px;
+  }
+}
+
+@media (min-width: 700px) {
+  @media (max-width: 1012px) {
+    body { 
+      font-size: 10px;
+    }
+  }
+  @media (max-height: 675px) {
+    body { 
+      font-size: 10px;
+    }
+  }
+}
+
+@media (min-width: 700px) {
+  @media (max-height: 500px) {
+    body { 
+      font-size: 6px;
+    }
+  } 
+}
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

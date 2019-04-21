@@ -1,0 +1,84 @@
+.join-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    color: whitesmoke
+}
+
+.join-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 2em;
+    font-size: 3em;
+}
+
+.input-roomcode {
+    height: 2em;
+    width: 100%;
+    font-size: 300%;
+    border: none;
+    border-radius: 25px;
+    text-align: center;
+}
+
+.input-username {
+    width: 20em;
+    text-align: center;
+    border-radius: 25px;
+}
+
+.join-username-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 8em;
+}
+
+.join-username-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.join-roomcode-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 3em;
+}
+
+.join-roomcode-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.join-roomcode-border {
+    border: 1px solid grey;
+    width: 80%;
+    border-radius: 25px;
+}
+
+.join-btn-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 7em;
+}
+
+.join-btn-link {
+    color: whitesmoke;
+    margin-top: .6em;
+    font-family: Circular,Helvetica,Arial,sans-serif;
+    cursor: pointer;
+}
+
+.join-btn {
+    background-color: rgba(211, 211, 211, 0.486);
+    width: 10em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px;
+}

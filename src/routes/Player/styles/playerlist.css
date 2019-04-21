@@ -1,0 +1,40 @@
+.--player-list {
+    list-style: none;
+}
+
+.--player-list-item-selected {
+    background-color: rgb(0, 235, 243);
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+.--player-list-item {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+}
+
+.--players-list-container {
+    margin: 3em;
+    position: relative;
+    color: whitesmoke;
+}
+
+.--players-settings-btn-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.--player-select-instruction {
+    display: flex;
+    justify-content: center;
+}
+
+.--player-album-art {
+    height: 20em;
+    width: 20em;
+    background-size: cover;
+}

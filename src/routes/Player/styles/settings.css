@@ -1,0 +1,49 @@
+.settings-container {
+    margin-top: 2em;
+    position: relative;
+    color: whitesmoke;
+}
+
+.settings-radio-options-container {
+    margin-left: 1em;
+}
+
+.settings-mode-selector {
+    margin-left: 3.5em;
+}
+
+.settings-back-btn {
+    margin-left: 1em;
+}
+
+.settings-title {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.category-list {
+    list-style: none;
+}
+
+.category-list-item {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 2em;
+    margin-top: 1em;
+}
+
+.settings-action-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 2.5em;
+    margin-right: 2em;
+}
+
+.settings-divider {
+    width: 80%;
+}
+
+.settings-categories-title {
+    margin-left: 1em;
+}

@@ -1,0 +1,76 @@
+.message-generic {
+    display: flex;
+    justify-content: center;
+    margin-top: 15em;
+}
+
+.message-container {
+    position: relative;
+    color: whitesmoke;
+}
+
+.message-loading-spinner {
+    display: flex;
+    justify-content: center;
+    margin-top: 8em;
+}
+
+.background {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: blur(2em) opacity(0.8) brightness(100%);
+    position: absolute;
+}
+
+/* .app-background {
+    background-image: none !important;
+} */
+
+.--player-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.--player-album-art-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 6em;
+}
+
+.round-category {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    color: whitesmoke;
+}
+
+.--player-artist {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+    color: whitesmoke;
+}
+
+.song-title {
+    display: flex;
+    justify-content: center;
+    color: whitesmoke;
+}
+
+.--player-username {
+    display: flex;
+    justify-content: center;
+    color: whitesmoke;
+}
+
+.round-winner-message {
+    display: flex;
+    justify-content: center;
+    margin-top: 3em;
+    color: whitesmoke;
+}

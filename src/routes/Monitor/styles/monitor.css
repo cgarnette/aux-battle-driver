@@ -1,0 +1,291 @@
+.intro-screen, .room-code-display-container, .message-screen {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    flex-direction: column
+}
+
+.title {
+    display: flex;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 5em;
+    margin-top: 10%;
+    line-height: 1em;
+    color: whitesmoke;
+}
+
+.start-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 15%;
+    height: 10%;
+}
+
+.start-btn-inner-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 10em;
+}
+
+.start-btn {
+    background-color: rgba(211, 211, 211, 0.486);
+    width: 12em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px; 
+}
+
+.room-code-display {
+    border: 4px solid lightgrey;
+    width: 6em;
+    height: 2em;
+    font-weight: bold;
+    font-size: 5em;
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+}
+
+.room-code-container {
+    display: flex;
+    justify-content: center;
+    height: 40em;
+}
+
+.room-code {
+    margin-top: .7em;
+    color: whitesmoke;
+}
+
+.waiting-room {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5em;
+    color: whitesmoke; 
+}
+
+.message-display {
+    font-weight: bold;
+    font-size: 5em;
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 3em;
+    color: whitesmoke;
+}
+
+.category-display {
+    font-weight: bold;
+    font-size: 5em;
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+    color: whitesmoke;
+    line-height: 1em;
+}
+
+.category-message {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    margin-bottom: 3em;
+    font-size: 5em;
+    color: whitesmoke;
+    line-height: 1em;
+}
+
+.message-loading-spin {
+    display: flex;
+    justify-content: center;
+    color: whitesmoke
+}
+
+.round-count {
+    font-weight: bold;
+    font-size: 3em;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    color: whitesmoke;
+}
+
+.battler-track-battler-info {
+    line-height: 1em;
+}
+
+.battler-track {
+    width: 90%;
+    display: flex;
+    flex-direction: row;
+    margin-left: 2em;
+    color: white;
+    border: 2px solid grey;
+    margin-top: 5%;
+}
+
+.battler-track-art {
+    height: 20em;
+    width: 20em;
+    background-size: cover;
+}
+
+.battler-track-details {
+    display: flex;
+    flex-direction: column;
+    font-size: 2em;
+    margin-left: 12em;
+}
+
+.round-winner-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2em;
+
+}
+
+.round-winner-title {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    color: whitesmoke;
+}
+
+.round-winner {
+    display: flex;
+    flex-direction: row;
+    margin: 5em;
+    justify-content: center;
+}
+
+.round-winner-track {
+    height: 20em;
+    width: 20em;
+    background-color: grey;
+}
+
+.round-winner-battler {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    
+}
+
+.round-winner-battler-image {
+    background-color: blueviolet;
+    height: 20em;
+    width: 20em;
+}
+
+.aux-battle-champion {
+    border: 3px solid red;
+    width: 40%;
+    margin-left: 30%;
+    margin-right: 30%;
+    height: 30em;
+}
+
+.background {
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: blur(2em) opacity(0.8) brightness(100%);
+    position: absolute;
+  }
+
+  .track-progress-bar {
+    height: 2em;
+    width: 65%;
+    border: 1px solid black;
+    border-radius: 25px;
+
+    margin-left: 17.5%;
+    margin-top: 5em;
+}
+  .progress {
+      background-color: black;
+      height: 70%;
+      margin: .3em;
+      border-radius: 25px;
+  }
+
+.round-winner-username {
+    display: flex;
+    justify-content: center;
+    color: whitesmoke
+}
+
+.login-btn {
+    background-color: rgba(211, 211, 211, 0.486);
+    width: 10em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px;
+}
+
+.login-btn-link {
+    color: whitesmoke;
+    margin-top: .6em;
+    font-family: Circular,Helvetica,Arial,sans-serif;
+    cursor: pointer;
+}
+
+.join-game-player-list-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.player-list {
+    width: 50%;
+    position: relative;
+    margin-top: 6%;
+}
+
+.player-list-list {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.room-code-display-container {
+    width: 50%;
+    position: relative;
+}
+
+.vertical-separator {
+    width: .1em;
+    height: 80vh;
+    margin-top: 10vh;
+    border: 1px solid whitesmoke;
+    position: relative;
+}
+
+.players-list-title {
+    color: whitesmoke;
+    display: flex;
+    justify-content: center;
+    font-size: 5em;
+    font-weight: bold;
+    margin-bottom: 15%;
+    
+}
+
+.player-list-item {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
+    width: 80%;
+    color: whitesmoke;
+}
+
+.monitor-master {
+
+}
+

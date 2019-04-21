@@ -1,0 +1,22 @@
+.room-code-header {
+    height: 4rem;
+    border: 1px solid whitesmoke;
+    background: transparent;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    margin-left: 15%;
+}
+
+.room-code {
+    color: whitesmoke;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+}
+
+.-room-code-header {
+    margin-top: 1em;
+}
