@@ -41,3 +41,5 @@ export class GameController {
         this.socket.emit('add', {gameCode: this.gameCode});
     }
 }
+
+export default GameController;

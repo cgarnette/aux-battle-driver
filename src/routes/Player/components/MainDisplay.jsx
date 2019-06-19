@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Join} from './Join';
-import { Waiting, TrackPlaying, RoundWinner } from '../common/GenericMessages';
-import { GameController } from '../GameController';
+import { Waiting, TrackPlaying, RoundWinner, LockScreen } from '../common/GenericMessages';
+import GameController from '../GameController';
 import { Settings } from './Settings';
 import { PlayerList } from './PlayerList';
 import { TrackSearch } from './TrackSearch';
@@ -95,6 +95,8 @@ class MainDisplay extends Component {
             case 'game start':
             case 'wait':
                 return <Waiting message={"Waiting"}/>
+            case 'lock':
+                return <LockScreen/>
             case 'track-selection':
                 return <Waiting message={"Waiting"}/>
             case 'round-play':
@@ -141,6 +143,8 @@ class MainDisplay extends Component {
             case 'game start':
             case 'wait':
                 return <Waiting message={"Waiting"}/>
+            case 'lock':
+                return <LockScreen/>
             case 'track-selection':
                 if (this.state.showTrackSearch) {
                     return <TrackSearch roomType={this.state.roomType} category={this.state.category} playerId={this.state.id} roomCode={this.state.roomcode} submissionSuccessful={() => this.hideTrackSearch()}/>
@@ -180,6 +184,8 @@ class MainDisplay extends Component {
             case 'waiting-room':
             case 'wait':
                 return <Waiting message={"Waiting"}/>
+            case 'lock':
+                return <LockScreen/>
             case 'game start':
                 return <Waiting message={"Waiting"}/>
             case 'track-selection':
@@ -220,6 +226,8 @@ class MainDisplay extends Component {
             case 'waiting-room':
             case 'wait':
                 return <Waiting message={"Waiting"}/>
+            case 'lock':
+                return <LockScreen/>
             case 'round-play':
                 return <TrackPlaying 
                     albumArt={this.state.albumArt}
@@ -268,6 +276,7 @@ class MainDisplay extends Component {
     }
 
     render(){
+        console.log('playerState', JSON.stringify(this.state));
         return (
             <div>
                 <div className="app-background"  style={PARTY_BACKGROUND}/>

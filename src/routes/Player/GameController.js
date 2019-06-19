@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
-import {AUX_BATTLE_SERVER} from '../../util/constants';
+import { AUX_BATTLE_SERVER } from '../../util/constants';
 
-export class GameController {
+class GameController {
     constructor(callback){
 
         this.roundChangeCallback = callback;
@@ -89,3 +89,5 @@ export class GameController {
         this.socket.emit(channel, data);
     }
 }
+
+export default GameController;

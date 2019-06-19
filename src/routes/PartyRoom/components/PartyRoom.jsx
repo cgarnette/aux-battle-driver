@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import {Route, withRouter} from 'react-router-dom';
-import {GameController} from '../GameController';
+import GameController from '../GameController';
 
 import { Intro } from '../../Monitor/phases/Intro';
 import { MessageDisplay} from '../../Monitor/infoDisplay/infoDisplay';

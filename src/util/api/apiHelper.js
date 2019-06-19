@@ -7,7 +7,9 @@ export const searchSpotify = (search, roomCode, explicit) => {
         `${AUX_BATTLE_SERVER}/spotify/search?searchParam=${search}&roomCode=${roomCode}`;
         
     return fetch(url).then(response => 
-        response.json().then(data => data.tracks ? data.tracks.items : [] ));
+        response.json().then(data => {
+            return data.tracks ? data.tracks.items : []; 
+        }));
 };
 
 export const setTrackSelection = (track, playerId, roomCode) => {

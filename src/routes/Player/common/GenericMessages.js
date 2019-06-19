@@ -1,7 +1,16 @@
 import {Icon} from 'semantic-ui-react';
 import React from 'react';
 import '../styles/generics.css';
+import lock from '../styles/locked.png';
 
+
+export const LockScreen = () => (
+    <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
+        <div style={{display: 'flex', justifyContent: 'center'}}>
+            <img src={lock} style={{height: '20%', width: '20%', marginTop: '15em'}}/>
+        </div>
+    </div>
+);
 
 export const Waiting = ({message}) => {
     return (

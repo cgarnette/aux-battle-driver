@@ -74,3 +74,9 @@
     margin-top: 3em;
     color: whitesmoke;
 }
+
+.lock-screen-icon {
+    background-image: url(./locked.png);
+    height: 100em;
+    width: 100em;
+}

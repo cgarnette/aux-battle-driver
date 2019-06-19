@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import {AUX_BATTLE_SERVER} from '../../../util/constants';
 
-export class GameController {
+class GameController {
     constructor(callback, gameCode){
 
         this.roundChangeCallback = callback;
@@ -74,6 +74,9 @@ export class GameController {
     }
 
     songFinished(){
+        console.log('calling for next');
         this.socket.emit('song-complete', {gameCode: this.gameCode});
     }
 }
+
+export default GameController;

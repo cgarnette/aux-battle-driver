@@ -5,23 +5,31 @@ import { MessageDisplay, CategoryDisplay } from '../infoDisplay/infoDisplay';
 import { Round } from '../phases/Round';
 import '../styles/monitor.css';
 
-import {Route, withRouter} from 'react-router-dom';
-import {GameController} from '../phases/GameController';
+import { Route, withRouter } from 'react-router-dom';
+import GameController from '../controllers/GameController';
+import PlaybackController from '../controllers/PlaybackController';
+import MusicPlayer from '../controllers/MusicPlayer';
 
-import {playTrackFromURI} from '../../../util/api/spotifyHelper';
+import { playTrackFromURI } from '../../../util/api/spotifyHelper';
 
-import {startGame} from '../../../util/api/services';
+import { startGame } from '../../../util/api/services';
+
+import { connect } from 'react-redux';
+import * as gameActions from '../../../store/GameStore/gameActions';
+import * as playbackActions from '../../../store/PlaybackStore/playbackActions';
+import * as _ from 'lodash';
 
 class Monitor extends Component {
     constructor(props) {
         super(props);
 
         this.playerCheckInterval = setInterval(() => this.checkForPlayer(), 1000);
-        this.updateCallback.bind(this);
         this.playing = false;
 
+        console.log('props', this.props);
+        console.log('action creators', gameActions);
+
         this.state = {
-            loggedIn: false,
             token: undefined,
             roomCode: undefined,
             gameStarted: false,
@@ -33,23 +41,22 @@ class Monitor extends Component {
             currentBattler: undefined,
             currentBattlerImg: undefined,
             category: undefined,
-            players: []
+            players: [],
+            playDuration: .2
         };
     }
 
     componentDidUpdate(prevProps, prevState){
-      const updateCallback = (property, value, override) => this.updateCallback(property, value, override);
-      if (!this.controller && this.state.roomCode) {
-        this.controller = new GameController(updateCallback, this.state.roomCode);
+      if (!this.playbackController) {
+        this.playbackController = new PlaybackController(this.state.playDuration);
       }
-    }
 
-    updateCallback(property, value, override=false){
-      // console.log("property", property, override);
-      if (override) {
-        this.setState({...property});
-      } else if (property && value) {
-        this.setState({[property]: value});
+      if (!this.gameController && this.state.roomCode) {
+        this.gameController = new GameController(this.props.updateStore, this.state.roomCode);
+      }
+      console.log("props", _.cloneDeep(this.props));
+      if (this.props.gameState !== prevProps.gameState) {
+        this.setState({...this.props.gameState, ...this.props.playbackState});
       }
     }
 
@@ -57,74 +64,16 @@ class Monitor extends Component {
         const { token } = this.state;
         if (window.Spotify !== null) {
           if (token) {
-              this.initPlayer(token);
-              clearInterval(this.playerCheckInterval);
-            this.createEventHandlers();
+            clearInterval(this.playerCheckInterval);
+
+            this.musicPlayer = new MusicPlayer(token, (id) => this.props.setPlayerId(id)); 
+            const player = this.musicPlayer.getPlayer();
+            this.playbackController.createEventHandlers(player, this.props.setCurrentTrack, this.props.setDeviceId);
+
+            setInterval(() => this.playbackController.getPlayerState(player, this.props.setCurrentTrack, () => this.gameController.songFinished()), 1000);
           }  
         }
       }
-
-    initPlayer = (token) => {
-        this.player = new window.Spotify.Player({
-            name: "Aux Battle",
-            getOAuthToken: cb => { cb(token); },
-          });
-        this.player.connect();
-        this.setState({loggedIn: true});
-    }
-
-    createEventHandlers() {
-        this.player.on('initialization_error', e => { console.error(e); });
-        this.player.on('authentication_error', e => {
-          console.error(e);
-          this.setState({ loggedIn: false });
-        });
-        this.player.on('account_error', e => { console.error(e); });
-        this.player.on('playback_error', e => { console.error(e); });
-      
-        // Playback status updates
-        this.player.on('player_state_changed', state => { 
-
-          if(state && state.track_window.current_track) {
-            const currentTrack = {
-              duration: state.duration,
-              position: state.position,
-              artist: state.track_window.current_track.artists[0].name,
-              album: state.track_window.current_track.album.name,
-              albumArt: state.track_window.current_track.album.images[0].url,
-              track: state.track_window.current_track.name,
-            };
-            this.setState({currentTrack});
-          }
-        });
-      
-        // Ready
-        this.player.on('ready', data => {
-          let { device_id } = data;
-          console.log("Let the music play on!");
-          this.setState({ deviceId: device_id });
-        });
-
-        this.updateInterval = setInterval(() => this.setCurrentTrack(), 1000);
-      }
-
-      setCurrentTrack = () => {
-        if (this.player) {
-          this.player.getCurrentState().then(state => {
-            if (state) {
-              const currentTrack = {
-                duration: state.duration,
-                position: state.position,
-                artist: state.track_window.current_track.artists[0].name,
-                album: state.track_window.current_track.album.name,
-                albumArt: state.track_window.current_track.album.images[0].url,
-                track: state.track_window.current_track.name,
-              };
-              this.setState({currentTrack, trackURI: ""});
-            }
-          });
-        }
-      };
 
     callback = ({location}) => {
       const code = location.search.split('?code=')[1];
@@ -134,15 +83,7 @@ class Monitor extends Component {
     };
 
     viewNav = () => {
-      if(this.state.currentTrack && this.playing){
-        if ( (this.state.currentTrack.position/this.state.currentTrack.duration) * 100 > 99.3) {
-          this.controller.songFinished();
-          this.playing = false;
-        } 
-      }
-
-      const updateCallback = (property, value, override) => this.updateCallback(property, value, override);
-      const start = this.state.tempCode ? () => startGame(this.state.tempCode, updateCallback) : undefined;
+      const start = this.state.tempCode ? () => startGame(this.state.tempCode, this.props.updateStore) : undefined;
 
       switch(this.state.phase) {
         case "start":
@@ -154,11 +95,11 @@ class Monitor extends Component {
         case "track-selection":
           return <CategoryDisplay category={this.state.category}/>
         case "round-play":
-          if (!this.playing && this.state.trackURI && this.player && this.state.deviceId) {
-            playTrackFromURI(this.state.trackURI, this.state.token, this.player._options.id);
-            this.playing = true;
+          if (_.isEmpty(this.state.currentTrack) && this.state.trackURI && this.state.deviceId) {
+            console.log("starting playback");
+            playTrackFromURI(this.state.trackURI, this.state.token, this.state.playerId);
           }
-          return this.state.currentTrack && <Round currentBattler={this.state.currentBattler} category={this.state.category} {...this.state.currentTrack} roundNum={this.state.roundNum} round="play"/>
+          return !_.isEmpty(this.state.currentTrack) && <Round currentBattler={this.state.currentBattler} category={this.state.category} {...this.state.currentTrack} playDuration={this.state.playDuration} roundNum={this.state.roundNum} round="play"/>
         case "wait":
           return <MessageDisplay gameType="Aux Battle" message={"Loading..."}/>
         case "vote":
@@ -174,6 +115,7 @@ class Monitor extends Component {
     };
 
     render(){
+      console.log('monitor state', _.cloneDeep(this.state));
         return (
             <div className="monitor-master">
                 {this.viewNav()}
@@ -183,4 +125,21 @@ class Monitor extends Component {
     }
 }
 
-export default withRouter(Monitor);
+const getGameState = (state) => state.gameState;
+const getPlaybackState = (state) => state.playbackState;
+
+const mapStateToProps = (state) => {
+  return {
+    gameState: getGameState(state),
+    playbackState: getPlaybackState(state)
+  }
+};
+
+const mapDispatchToProps = {
+  updateStore: gameActions.OverrideStore,
+  setCurrentTrack: playbackActions.setCurrentTrack,
+  setDeviceId: playbackActions.setDeviceId,
+  setPlayerId: playbackActions.setPlayerId
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Monitor));

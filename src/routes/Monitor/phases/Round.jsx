@@ -25,12 +25,13 @@ export class Round extends Component {
 
 
     currentlyPlaying = () => {
-        const currentPosition = (this.props.position/this.props.duration) * 100;
+        const { position, duration, playDuration } = this.props;
+        const currentPosition = (position/(duration * playDuration)) * 100; 
+        
         return (
             <div>
                 <div className="battler-track">
                     <div className="battler-track-art" style={{backgroundImage: `url(${this.props.albumArt})`}}>
-                        {/* <img src={this.props.albumArt}/> */}
                     </div>
                     <div className="battler-track-details">
                         { this.props.currentBattler && <div style={{marginTop: "1em"}}>
