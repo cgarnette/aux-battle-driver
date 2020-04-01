@@ -12,11 +12,11 @@ export class PlayerList extends Component {
         }
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        if (this.props.players !== this.state.players) {
-            this.setState({players: this.props.players});
-        }
-    }
+    // componentDidUpdate(prevProps, prevState) {
+    //     if (this.props.players !== this.state.players) {
+    //         this.setState({players: this.props.players});
+    //     }
+    // }
 
     setSelected(e, i){
         e.preventDefault();
@@ -61,19 +61,29 @@ export class PlayerList extends Component {
     }
 
     render(){
+        const startDisabled = this.state.selected.length < 2;
+        const myStyle = startDisabled ? {color: 'lightgrey'} : {};
+
         return (
             <div className="--players-list-container">
                 
                 <div className="--players-settings-btn-container">
-                    <button disabled={this.state.selected.length < 2} onClick={(e) => this.props.start(e, this.state.selected)}>Start </button>
+                    <div className="--start-btn-container">
+                        <div className="--start-btn" disabled={startDisabled} style={myStyle} onClick={(e) => this.props.start(e, this.state.selected)}>
+                            <h3 className="--start-title">Start</h3>
+                        </div>
+                    </div>
                     <h4>Host</h4>
-                    <button className="--players-settings-btn" onClick={() => this.props.showSettings()}>Settings</button>
+                    <div className="--settings-btn-container">
+                        <div className="--players-settings-btn" onClick={() => this.props.showSettings()}>
+                            <h3 className="--settings-btn-title">Settings</h3>
+                        </div>
+                    </div>
                 </div>
                 <hr/>
                 <div className="--player-select-instruction">
                     Select 2 Players to hold the Aux
                 </div>
-                <h3 className="--players-list-title">Players</h3>
                 <div className="--players-list-display-container">
                     {this.displayPlayers()}
                 </div>

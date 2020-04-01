@@ -10,12 +10,15 @@ export class Settings extends Component {
 
         this.state = {
             QuickMode: false,
-            categories: this.props.categories || ['Prom Night', 'Last Dance', 'Childhood Guilty Pleasure']
+            categories: this.props.categories || ['Prom Night', 'Last Dance', 'Childhood Guilty Pleasure'],
+            playDuration: this.props.playDuration || 1
         };
     }
 
     onChange(e, property){
         e.preventDefault();
+        console.log('setting property', property);
+        console.log('to be', e.target.value);
         this.setState({[property]: e.target.value});
     }
 
@@ -47,8 +50,8 @@ export class Settings extends Component {
             return (
                 <li className="category-list-item-container">
                     <div className="category-list-item">
-                        <input type="text" value={category} onChange={(e) => this.updateCategories(e, i)}/>
-                        <button onClick={(e) => {this.removeCategory(e, i)}}>X</button>
+                        <input type="text" value={category} className="category-input" onChange={(e) => this.updateCategories(e, i)}/>
+                        <div className="remove-btn-container" onClick={(e) => {this.removeCategory(e, i)}}><span className="remove-btn">-</span></div>
                     </div>
                 </li>
                 
@@ -59,15 +62,19 @@ export class Settings extends Component {
             <div>
                 <ul className="category-list">
                     {categoryElements}
-                    <div className="settings-action-buttons">
-                        <button className="add-category-btn" onClick={(e) => this.addCategory(e)}> + Add Category</button>
-                        <button 
-                            className="settings-update-btn" 
-                            onClick={(e) => this.props.updateSettings(e, this.state)}>
-                            Update
-                        </button>
-                    </div>
+                    
                 </ul>
+                <div className="settings-action-buttons">
+
+                        <div className="--start-btn" onClick={(e) => this.addCategory(e)}>
+                            <h4 style={{fontSize: '.9em'}} className="--start-title">+ Add Category</h4>
+                        </div>
+
+                        <div className="--start-btn" onClick={(e) => this.props.updateSettings(e, this.state)}>
+                            <h3 className="--start-title">Update</h3>
+                        </div>
+
+                    </div>
             </div>
         );
     }
@@ -75,11 +82,13 @@ export class Settings extends Component {
     render(){
         return (
             <div className="settings-container">
-                <button className="settings-back-btn" onClick={() => this.props.goBack()}> Back </button>
+                <div className="--start-btn" onClick={(e) => this.props.updateSettings(e, this.state)}>
+                    <h3 className="--start-title">Back</h3>
+                </div>
                 <h2 className="settings-title">Settings</h2>
                 <div className="settings-radio-options-container">
-                    <h3>Quick Mode</h3>
-                    <input className="settings-mode-selector" type="checkbox" onClick={(e) => this.onChange(e, "QuickMode")}/>
+                    <h3>Playback Duration</h3>
+                    <input type="range" min="0" max="1" step=".01" value={this.state.playDuration} className="slider" id="myRange" onChange={(e) => this.onChange(e, "playDuration")}/>
                 </div>
                 <hr className="settings-divider"/>
                 <h3 className="settings-categories-title">Categories</h3>

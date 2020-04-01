@@ -2,6 +2,7 @@
 // game action types
 export const DATA_OVERRIDE = 'DATA_OVERRIDE/game_state';
 export const CLEAR_TRACK_URI = 'CLEAR_TRACK_URI/game_state';
+export const SET_FREE_FOR_ALL = 'SET_FREE_FOR_ALL/game_state';
 
 
 

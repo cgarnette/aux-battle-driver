@@ -47,9 +47,11 @@
 }
 
 .voting-option-item-container-selected {
-    background-color: rgb(137, 231, 235);
+    background-color: rgba(102, 205, 170, .5);
 }
 
 .voting-options-list-container {
-    margin-top: 5em;
+    margin-top: 2em;
+    overflow-y: scroll;
+    height: 35em;
 }

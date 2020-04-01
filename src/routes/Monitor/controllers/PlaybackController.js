@@ -5,6 +5,10 @@ class PlaybackController {
     this.playbackDuration = playbackDuration;
   }
 
+  setPlaybackDuration(duration=1){
+    this.playbackDuration = duration;
+  }
+
   createEventHandlers = (player, setCurrentTrack, setDeviceId)  => {
     player.on('initialization_error', e => { console.error(e); });
     player.on('authentication_error', e => {

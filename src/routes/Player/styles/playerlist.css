@@ -1,9 +1,12 @@
 .--player-list {
     list-style: none;
+    overflow-y: scroll;
+    max-height: 30em;
+    padding-inline-start: 0;
 }
 
 .--player-list-item-selected {
-    background-color: rgb(0, 235, 243);
+    background-color: rgba(102, 205, 170, .5);
     margin-top: 1em;
     display: flex;
     justify-content: center;
@@ -15,6 +18,48 @@
     display: flex;
     justify-content: center;
     width: 80%;
+}
+
+.--start-btn-container {
+
+}
+
+.--start-title {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1em;
+}
+
+.--start-btn {
+    background-color: rgba(211, 211, 211, 0.486);
+    width: 7em;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.--settings-btn-container {
+
+}
+
+.--players-settings-btn {
+    background-color: rgba(211, 211, 211, 0.486);
+    width: 7em;
+    height: 2.5em;
+    display: flex;
+    justify-content: center;
+    border-radius: 25px;
+    cursor: pointer;
+}
+
+.--settings-btn-title {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 1em;
 }
 
 .--players-list-container {

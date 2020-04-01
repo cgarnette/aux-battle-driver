@@ -13,6 +13,17 @@
     font-size: 3em;
 }
 
+.logo-display {
+    height: 6.5em;
+    width: 20em;
+    margin-top: 3em;
+}
+
+.logo-container {
+    display: flex;
+    justify-content: center;
+}
+
 .input-roomcode {
     height: 2em;
     width: 100%;
@@ -32,7 +43,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
-    margin-top: 8em;
+    margin-top: 4em;
 }
 
 .join-username-container {

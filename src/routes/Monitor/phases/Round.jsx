@@ -12,11 +12,15 @@ export class Round extends Component {
         return (
                 <div className={"intro-screen"}>
                     {confetti && <Confetti width={width} height={height}/>}
-                    <div className="round-count">
-                        {this.props.roundNum && `Round ${this.props.roundNum}`}
-                    </div>
-                    <div className="category-display">
-                        {this.props.category || ""}
+                    <div className="game-round-info-container">
+                        <div className="game-round-info">
+                            <div className="round-count">
+                                {this.props.roundNum && `Round ${this.props.roundNum}`}
+                            </div>
+                            <div className="category-display">
+                                {this.props.category || ""}
+                            </div>
+                        </div>
                     </div>
                     {child}
                 </div>
@@ -32,18 +36,21 @@ export class Round extends Component {
             <div>
                 <div className="battler-track">
                     <div className="battler-track-art" style={{backgroundImage: `url(${this.props.albumArt})`}}>
+                        <div className="record-center-conatiner">
+                            <div className="record-center"/>
+                        </div>
                     </div>
                     <div className="battler-track-details">
-                        { this.props.currentBattler && <div style={{marginTop: "1em"}}>
+                        { this.props.currentBattler && <div style={{margin: '1em'}}>
                             <span className="battler-track-battler-info">{`On the Aux: ${this.props.currentBattler}`}</span>
                         </div> }
-                        <div style={{marginTop: "1em"}}>
+                        <div style={{margin: '1em', marginTop: ".2em"}}>
                             <span className="battler-track-battler-info">{`Track: ${this.props.track || "Track1"}`}</span>
                         </div>
-                        <div style={{marginTop: "1em"}}>
+                        <div style={{margin: '1em', marginTop: ".2em"}}>
                             <span className="battler-track-battler-info">{`Album: ${this.props.album || "Album1"}`}</span>
                         </div>
-                        <div style={{marginTop: "1em"}}>
+                        <div style={{margin: '1em', marginTop: ".2em"}}>
                             <span className="battler-track-battler-info">{`Artist: ${this.props.artist || "Artist1"}`}</span>
                         </div>
                     </div>

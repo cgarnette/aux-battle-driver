@@ -21,3 +21,7 @@ export const setDeviceIdAction = (deviceId) => {
 export const setPlayerIdAction = (playerId) => {
     return { type: actionTypes.SET_PLAYER_ID, res: playerId };
 }
+
+export const setFreeForAll = () => {
+    return { type: actionTypes.SET_FREE_FOR_ALL };
+}

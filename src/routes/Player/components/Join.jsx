@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Button} from 'semantic-ui-react';
 import '../styles/join.css';
+import logo from '../../Monitor/phases/logo.png';
 
 
 export class Join extends Component {
@@ -26,8 +27,8 @@ export class Join extends Component {
         const {username, roomcode} = this.state;
         return (
             <div className="join-container">
-                <div className="join-title">
-                    Join a Game
+                <div className="logo-container">
+                    <img className="logo-display" src={logo}/>
                 </div>
                 <div className="join-username-title">
                     <h3>Username</h3>

@@ -56,6 +56,42 @@ export const castVote = (roomCode, keeper) => {
     return fetch(`${AUX_BATTLE_SERVER}/vote?roomCode=${roomCode}&keeperId=${keeper.id}`).then(response => response.json());
 }
 
+export const updateUser = (roomCode, state) => {
+    if(roomCode && state) {
+        return fetch(`${AUX_BATTLE_SERVER}/update/user`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                state,
+                roomCode
+            })
+        });
+    }
+    return { error: "error" };
+}
+
+export const submitCategory = (roomCode, category) => {
+    return fetch(`${AUX_BATTLE_SERVER}/category/submit?roomCode=${roomCode}&category=${category}`).then(response => response.json());
+}
+
+export const startTrackSelection = (roomCode) => {
+    return fetch(`${AUX_BATTLE_SERVER}/freeforall/trackselect?roomCode=${roomCode}`).then(response => response.json());
+}
+
+export const closeJoinPhase = (roomCode) => {
+    return fetch(`${AUX_BATTLE_SERVER}/join/close?roomCode=${roomCode}`).then(response => response.json());
+}
+
+export const startPlaybackRound = (roomCode) => {
+    return fetch(`${AUX_BATTLE_SERVER}/start/roundplay?roomCode=${roomCode}`).then(response => response.json());
+}
+
+export const endVotePhase = (roomCode) => {
+    return fetch(`${AUX_BATTLE_SERVER}/vote/close?roomCode=${roomCode}`).then(response => response.json());
+}
 // export const getNextTrack = (roomCode, id) => {
 
 //     console.log("need next now");

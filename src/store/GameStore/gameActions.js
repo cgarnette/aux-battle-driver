@@ -20,3 +20,8 @@ export const OverrideStore = (property, value, override) => {
     };
 };
 
+export const setFreeForAll = () => {
+    return (dispatch) => {
+        dispatch(actionCreators.setFreeForAll());
+    };
+};

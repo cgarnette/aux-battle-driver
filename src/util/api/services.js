@@ -9,7 +9,15 @@ export const startGame = (tempCode, updateState, redirectURL, gameType="battle")
       const access = response.access_token;
       const refresh = response.refresh_token;
 
-      const startPath = gameType === "battle" ? "start" : "start/party";
+      let startPath = gameType === "battle" ? "start" : "start/party";
+      
+      if (gameType === 'battle') {
+        startPath = 'start';
+      } else if (gameType === 'freeforall') {
+        startPath = 'start/freeforall';
+      } else {
+        startPath = 'start/party';
+      }
       
       fetch(`${AUX_BATTLE_SERVER}/${startPath}?access_token=${access}&refresh_token=${refresh}`, {method: 'GET'}).then(res_ =>
       res_.json().then(response_ => {

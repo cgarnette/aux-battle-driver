@@ -1,6 +1,8 @@
 export const GAME_STARTED = "Aux Battle Commencing";
 
-export const AUX_BATTLE_BACKGROUND = {backgroundImage: "linear-gradient(to right bottom, skyblue, rgb(0, 100, 195))"};
+const image = require('./crowd.png');
+// export const AUX_BATTLE_BACKGROUND = {backgroundImage: "linear-gradient(to right bottom, skyblue, rgb(0, 100, 195))"};
+export const AUX_BATTLE_BACKGROUND = {backgroundImage: image};
 export const PARTY_BACKGROUND = {backgroundImage: "linear-gradient(to right bottom, rgb(255, 213, 125), rgb(158, 0, 158))"};
 
 

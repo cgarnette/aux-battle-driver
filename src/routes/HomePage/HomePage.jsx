@@ -16,6 +16,10 @@ import {
   Visibility,
 } from 'semantic-ui-react'
 
+import logo from '../../backgrounds/logo.png';
+import logoW from '../../backgrounds/logo_white.png';
+import appIcon from '../../backgrounds/app_icon.png';
+
 // Heads up!
 // We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
 // For more advanced usage please check Responsive docs under the "Usage" section.
@@ -31,17 +35,7 @@ const getWidth = () => {
  */
 const HomepageHeading = ({ mobile }) => (
   <Container text>
-    <Header
-      as='h1'
-      content='Your Party Room'
-      inverted
-      style={{
-        fontSize: mobile ? '2em' : '4em',
-        fontWeight: 'normal',
-        marginBottom: 0,
-        marginTop: mobile ? '1.5em' : '3em',
-      }}
-    />
+    <Image src={logoW} style={{height: '15em', width: '80em'}}/>
     <Header
       as='h2'
       content='For All the Music To Set It Off Right'
@@ -202,17 +196,23 @@ const HomePage = () => (
               More than two competitors? No Problem
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              Start a free for all aux battle where the whole room can try their hand for the title of champion,
+              Start a Free For All Aux Battle where the whole room can try their hand for the title of champion,
               and rights to control the Aux.
             </p>
           </Grid.Column>
           <Grid.Column floated='right' width={6}>
-            <Image bordered rounded size='large' src='/images/wireframe/white-image.png' />
+            <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'row'}}>
+              <Image bordered rounded size='large' src={appIcon} style={{border: 'none', height: '10em', width: '10em'}}/>
+            </div>
+            
+            <div style={{display: 'flex', marginTop: '3em', justifyContent:'center', flexDirection: 'row'}}>
+              <h2>Coming Soon To the App Store</h2>
+            </div>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>
-          <Grid.Column textAlign='center'>
-            <Button size='huge' as="a" href="/game">Start a Game</Button>
+          <Grid.Column width={7} style={{display: 'flex', alignItems: 'center'}}>
+            <Button style={{marginTop: '2em'}} size='huge' as="a" href="/game">Start a Game</Button>
           </Grid.Column>
         </Grid.Row>
       </Grid>
@@ -224,14 +224,14 @@ const HomePage = () => (
             <Header as='h3' style={{ fontSize: '2em' }}>
               "All's fair in love and the Aux Battle"
             </Header>
-            <p style={{ fontSize: '1.33em' }}>That is what they all say about us</p>
+            <p style={{ fontSize: '1.33em' }}>- That is what they all say about us</p>
           </Grid.Column>
           <Grid.Column style={{ paddingBottom: '5em', paddingTop: '5em' }}>
             <Header as='h3' style={{ fontSize: '2em' }}>
               "Party Rooms are perfect for kickbacks"
             </Header>
             <p style={{ fontSize: '1.33em' }}>
-              <b>Everyone who's ever tried it</b>
+              - <b>Everyone who's ever tried it</b>
             </p>
           </Grid.Column>
         </Grid.Row>

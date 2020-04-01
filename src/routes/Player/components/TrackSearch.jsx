@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import '../styles/trackSearch.css';
 import {Icon, Button} from 'semantic-ui-react'
+import * as _ from "lodash";
 
 import {searchSpotify, setTrackSelection, addToQueue} from '../../../util/api/apiHelper';
 
@@ -29,6 +30,8 @@ export class TrackSearch extends Component {
     }
 
     setSelected(item) {
+
+        console.log("selected: ", item);
         if (this.isSelected(item)) {
             this.setState({selectedTrack: {}});
         } else {
@@ -43,7 +46,7 @@ export class TrackSearch extends Component {
             const url = result.album ? (result.album.images.length > 0 ? result.album.images[1 || 0].url : undefined) : undefined;
             const artist = result.artists ? result.artists[0].name : "";
             return (
-            <li className={className} onClick={() => this.setSelected(result)}>
+            <li className={className} key={result && result.uri} onClick={() => this.setSelected(result)}>
                 <div className="result">
                     <div>
                         {url && <img className="result-artist-image" src={url}/>}
@@ -62,10 +65,12 @@ export class TrackSearch extends Component {
             </li>
         )});
 
+        const length = !_.isEmpty(this.state.selectedTrack) ? "result-list short" : "result-list";
+
         return (
             <div className="result-list-container">
                 <nav>
-                    <ul className="result-list">
+                    <ul className={length}>
                         {resultList}
                     </ul>
                 </nav>
@@ -91,9 +96,36 @@ export class TrackSearch extends Component {
             }
         }
     }
+
+    selectionDisplay() {
+        const { selectedTrack } = this.state;
+        const url = selectedTrack.album ? (selectedTrack.album.images.length > 0 ? selectedTrack.album.images[1 || 0].url : undefined) : undefined;
+        const artist = selectedTrack.artists ? selectedTrack.artists[0].name : "";
+        return (
+            <div className="track-selection-render">
+                <div className="divider-container divider-conditional">
+                    <hr className="--divider"/>
+                </div>
+                <div className="details-container">
+                    <div className="selected-track-display">
+                        <img className="selection-display-image" src={url}/>
+                        <div className="selected-track-details">
+                            <b>{selectedTrack.name}</b>
+                            <div className="selected-track-artist">
+                                {artist}
+                            </div>
+                        </div>
+                    </div>
+                    <div className="play-btn-container" onClick={() => this.submitSelection()}>
+                        <Icon name="play circle" size="huge"/>
+                        <b style={{ marginTop: ".5em" }}>Play</b>
+                    </div>
+                </div>
+            </div>
+        );
+    }
     
     render(){
-        // console.log("state", this.state);
         return (
             <div>
                 <div className="track-search-background"/>
@@ -104,19 +136,20 @@ export class TrackSearch extends Component {
                             <div className="category-container">
                                 <h2>{this.state.category || ""}</h2>
                             </div>
-                            <div className="play-btn-container" onClick={() => this.submitSelection()}>
-                                <Icon name="play circle" size="big"/>
-                            </div>
-                            
                         </div>
                         <div className="search-bar-container">
                             <Icon name="search" className="search-icon"/>
                             <input type="text" className="search-bar" onChange={(e) => this.onChange(e)}/>
                         </div>
-                        <hr className="divider"/>
+                        <div className="divider-container">
+                            <hr className="--divider"/>
+                        </div>
                     </div>
-                    
-                    {this.displayResults()}
+
+                    <div className="test-holder">
+                        {this.displayResults()}
+                        {!_.isEmpty(this.state.selectedTrack) && this.selectionDisplay()}
+                    </div> 
                 </div>
             </div>
         );

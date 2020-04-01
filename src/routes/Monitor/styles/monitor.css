@@ -5,12 +5,33 @@
     flex-direction: column
 }
 
+.room-code-header-battle {
+    height: 4rem;
+    border: 1px solid whitesmoke;
+    background: transparent;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    margin-left: 15%;
+}
+
+.room-code {
+    color: whitesmoke;
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+}
+
+
+
 .title {
     display: flex;
     justify-content: center;
     font-weight: bold;
     font-size: 5em;
-    margin-top: 10%;
+    margin-top: .3em;
     line-height: 1em;
     color: whitesmoke;
 }
@@ -18,15 +39,14 @@
 .start-btn-container {
     display: flex;
     justify-content: center;
-    margin-top: 15%;
+    margin-top: 10em;
     height: 10%;
 }
 
 .start-btn-inner-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
-    height: 10em;
 }
 
 .start-btn {
@@ -36,6 +56,9 @@
     display: flex;
     justify-content: center;
     border-radius: 25px; 
+    margin: 2em;
+    margin-bottom: 0;
+    margin-top: .5em;
 }
 
 .room-code-display {
@@ -85,6 +108,12 @@
     margin-top: 3%;
     color: whitesmoke;
     line-height: 1em;
+    margin: .5em;
+}
+
+.category-list-item-container {
+    display: flex;
+    justify-content: center;
 }
 
 .category-message {
@@ -117,19 +146,43 @@
 }
 
 .battler-track {
-    width: 90%;
+    width: 70%;
     display: flex;
     flex-direction: row;
-    margin-left: 2em;
+    margin-left: 15%;
     color: white;
-    border: 2px solid grey;
     margin-top: 5%;
+    justify-content: space-between;
+    max-height: 20em;
 }
 
 .battler-track-art {
     height: 20em;
     width: 20em;
     background-size: cover;
+    border-radius: 150px;
+    display: flex;
+    justify-content: center;
+    animation:spin 10s linear infinite;
+}
+
+.record-center-conatiner {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    flex-direction: column;
+}
+
+@keyframes spin{
+	from{transform:rotate(0deg)}
+	to{transform:rotate(360deg)}	
+}
+
+.record-center {
+    background-color: rgba(0, 0, 0, .8);
+    height: 4em;
+    width: 4em;
+    border-radius: 100px;
 }
 
 .battler-track-details {
@@ -137,6 +190,22 @@
     flex-direction: column;
     font-size: 2em;
     margin-left: 12em;
+    background-color: rgba(119, 136, 153, .5);
+    width: 30%;
+    border-radius: 20px;
+    overflow-y: scroll;
+}
+
+.game-round-info {
+    background-color: rgba(119, 136, 153, .5);
+    height: 15em;
+    border-radius: 25px;
+    max-width: 70em;
+}
+
+.game-round-info-container {
+    display: flex;
+    justify-content: center;
 }
 
 .round-winner-container {
@@ -196,6 +265,7 @@
     background-position: center center;
     filter: blur(2em) opacity(0.8) brightness(100%);
     position: absolute;
+    background-color: lightslategray;
   }
 
   .track-progress-bar {
@@ -244,7 +314,7 @@
 .player-list {
     width: 50%;
     position: relative;
-    margin-top: 6%;
+    margin-top: 3.5em;
 }
 
 .player-list-list {
@@ -252,6 +322,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
+    padding-inline-start: 0;
 }
 
 .room-code-display-container {
@@ -285,7 +356,46 @@
     color: whitesmoke;
 }
 
-.monitor-master {
+.score-board-page-container {
+    
+}
+
+.score-board-header {
 
 }
 
+.lineSeparator {
+
+}
+
+.score-board-container {
+
+}
+
+.score-board {
+
+}
+
+.board-list-container {
+
+}
+
+.board-list {
+
+}
+
+.score-board-element-line {
+
+}
+
+.score-board-element-container {
+
+}
+
+.score-board-element-name {
+
+}
+
+.score-board-element-score {
+    
+}

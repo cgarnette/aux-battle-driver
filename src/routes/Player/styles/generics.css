@@ -16,14 +16,14 @@
 }
 
 .background {
-    left: 0;
+    /* left: 0;
     right: 0;
     top: 0;
     bottom: 0;
     background-size: cover;
     background-position: center center;
     filter: blur(2em) opacity(0.8) brightness(100%);
-    position: absolute;
+    position: absolute; */
 }
 
 /* .app-background {
@@ -52,7 +52,6 @@
 .--player-artist {
     display: flex;
     justify-content: center;
-    margin-top: 3em;
     color: whitesmoke;
 }
 
@@ -60,6 +59,8 @@
     display: flex;
     justify-content: center;
     color: whitesmoke;
+    margin-top: 3em;
+    font-style: italic;
 }
 
 .--player-username {
@@ -79,4 +80,50 @@
     background-image: url(./locked.png);
     height: 100em;
     width: 100em;
+}
+
+.category-input-page {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 50em;
+    position: relative;
+}
+
+.category-input-container {
+    background-color: rgb(189, 188, 188, 0.486);
+    height: 10em;
+    border-radius: 25px;
+    margin: 2em;
+}
+.category-input-title {
+    text-align: center;
+    color: whitesmoke;
+}
+.category-input {
+    margin-left: 1em;
+    height: 90%;
+    width: 85%;
+    font-size: 1.5em;
+    border: none;
+}
+
+.input-container {
+    width: 90%;
+    margin-left: 5%;
+    border-radius: 25px;
+    height: 3em;
+    background-color: white;
+}
+
+.category-input-submit-btn {
+    margin: .5em;
+}
+.category-input-skip-btn {
+    margin: .5em;
+}
+.category-input-actions {
+    margin-top: 1em;
+    display: flex;
+    justify-content: center;
 }

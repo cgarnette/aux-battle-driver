@@ -2,8 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { AuxBattle } from './AuxBattle';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AuxBattle from './AuxBattle';
+
+import image from './util/crowd.png';
 
 const FullGame = () => {
     return (

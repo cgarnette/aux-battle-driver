@@ -1,14 +1,16 @@
 import React, {Component} from 'react';
 import {Join} from './Join';
-import { Waiting, TrackPlaying, RoundWinner, LockScreen } from '../common/GenericMessages';
+import { Waiting, TrackPlaying, RoundWinner, LockScreen, CategorySubmit } from '../common/GenericMessages';
 import GameController from '../GameController';
 import { Settings } from './Settings';
 import { PlayerList } from './PlayerList';
 import { TrackSearch } from './TrackSearch';
 import { Vote } from './Vote';
 import './global.css';
-import { updateSettings } from '../../../util/api/apiHelper';
+import { updateSettings, updateUser } from '../../../util/api/apiHelper';
 import { PARTY_BACKGROUND } from '../../../util/constants';
+import background from '../../../util/crowd.png';
+import * as _ from "lodash";
 
 class MainDisplay extends Component {
 
@@ -37,12 +39,23 @@ class MainDisplay extends Component {
             showTrackSearch: true,
             category: "",
             voting: true,
-            roomType: "battle"
+            roomType: "battle",
+            roomcode: ''
         };
     }
 
+    componentDidMount(){
+        if (_.isEmpty(this.state.roomcode) || !this.state.username) {
+            const username = localStorage.getItem('username');
+            const roomcode = localStorage.getItem('roomcode');
+            if (username && roomcode) {
+                const mockE = { preventDefault: () => {} };
+                this.joinGame(mockE, { roomcode, username });
+            }
+        }
+    }
+
     updateCallback(property, value, override=false){
-        // console.log("property", property, override);
         if (override) {
           this.setState({...property});
         } else if (property && value) {
@@ -55,6 +68,9 @@ class MainDisplay extends Component {
         e.preventDefault();
         const { username, roomcode } = gameState;
         this.controller.join(roomcode, username);
+
+        localStorage.setItem('username', username);
+        localStorage.setItem('roomcode', roomcode);
 
         this.setState({roomcode, username});
     }
@@ -81,153 +97,29 @@ class MainDisplay extends Component {
         this.setState({voting: false});
     }
 
-    hostDisplayDriver(){
-        const {phase, players, categories} = this.state;
-        switch(phase){
-            case 'join':
-                
-                return <Join onClick={(e, gameState) => this.joinGame(e, gameState)}/>
-            case 'waiting-room':
-                if (this.state.showSettings) {
-                    return <Settings categories={categories} goBack={() => this.setState({showSettings: false})} updateSettings={(e, settings) => this.updateSettings(e, settings)}/>
-                }
-                return <PlayerList players={players} start={(e, keepers) => this.startGame(e, keepers)} showSettings={() => this.setState({showSettings: true})}/>
-            case 'game start':
-            case 'wait':
-                return <Waiting message={"Waiting"}/>
-            case 'lock':
-                return <LockScreen/>
-            case 'track-selection':
-                return <Waiting message={"Waiting"}/>
-            case 'round-play':
-                return <TrackPlaying 
-                    albumArt={this.state.albumArt}
-                    artist={this.state.artist}
-                    player={this.state.currentBattler}
-                    category={this.state.category}
-                    songTitle={this.state.trackTitle}
-                    />
-            case 'vote':
-                if (this.state.voting) {
-                    return <Vote category={this.state.category} roomCode={this.state.roomcode} finishVoting={() => this.finishVoting()}/>
-                }
-                return <Waiting message={"Waiting"}/>
-            case 'round-over':
-                return <RoundWinner 
-                player={this.state.winner}
-                category={this.state.category}
-                albumArt={this.state.albumArt}
-                />
-            case 'game-over':
-                return <RoundWinner 
-                player={this.state.winner}
-                category={this.state.category}
-                albumArt={this.state.albumArt}
-                gameOver={true}
-                />
-            default:
-        }
-    }
-
-    hostKeeperDisplayDriver(){
-        const {phase, players, categories} = this.state;
-        switch(phase){
-            case 'join':
-                
-                return <Join onClick={(e, gameState) => this.joinGame(e, gameState)}/>
-            case 'waiting-room':
-                if (this.state.showSettings) {
-                    return <Settings categories={categories} goBack={() => this.setState({showSettings: false})} updateSettings={(e, settings) => this.updateSettings(e, settings)}/>
-                }
-                return <PlayerList players={players} start={(e, keepers) => this.startGame(e, keepers)} showSettings={() => this.setState({showSettings: true})}/>
-            case 'game start':
-            case 'wait':
-                return <Waiting message={"Waiting"}/>
-            case 'lock':
-                return <LockScreen/>
-            case 'track-selection':
-                if (this.state.showTrackSearch) {
-                    return <TrackSearch roomType={this.state.roomType} category={this.state.category} playerId={this.state.id} roomCode={this.state.roomcode} submissionSuccessful={() => this.hideTrackSearch()}/>
-                }
-                return <Waiting message={"Waiting"}/>
-            case 'round-play':
-                return <TrackPlaying 
-                    albumArt={this.state.albumArt}
-                    artist={this.state.artist}
-                    player={this.state.currentBattler}
-                    category={this.state.category}
-                    songTitle={this.state.trackTitle}
-                    />
-            case 'round-over':
-                return <RoundWinner 
-                player={this.state.winner}
-                category={this.state.category}
-                albumArt={this.state.albumArt}
-                />
-
-            case 'game-over':
-                return <RoundWinner 
-                player={this.state.winner}
-                category={this.state.category}
-                albumArt={this.state.albumArt}
-                gameOver={true}
-                />
-            default:
-                return <Waiting message={"Waiting"}/>
-        }
-    }
-
-    keeperDisplayDriver(){
+    DisplayDriver(){
         switch(this.state.phase){
             case 'join':
                 return <Join onClick={(e, gameState) => this.joinGame(e, gameState)}/>
-            case 'waiting-room':
-            case 'wait':
-                return <Waiting message={"Waiting"}/>
             case 'lock':
                 return <LockScreen/>
-            case 'game start':
+            case 'waiting-room':
+                if (this.state.host) {
+                    if (this.state.showSettings) {
+                        return <Settings categories={this.state.categories} playDuration={.2} updateSettings={(e, settings) => this.updateSettings(e, settings)}/>
+                    }
+                    return <PlayerList players={this.state.players} start={(e, keepers) => this.startGame(e, keepers)} showSettings={() => this.setState({showSettings: true})}/>
+                }
                 return <Waiting message={"Waiting"}/>
+
+            case 'category-submission':
+                return <CategorySubmit roomcode={this.state.roomcode} lock={() => this.setState({phase: 'wait'})}/>
+                
             case 'track-selection':
-                if (this.state.showTrackSearch) {
+                if (this.state.showTrackSearch && this.startGame.keeper) {
                     return <TrackSearch roomType={this.state.roomType} category={this.state.category} playerId={this.state.id} roomCode={this.state.roomcode} submissionSuccessful={() => this.hideTrackSearch()}/>
                 }
                 return <Waiting message={"Waiting"}/>
-            case 'round-play':
-                return <TrackPlaying 
-                    albumArt={this.state.albumArt}
-                    artist={this.state.artist}
-                    player={this.state.currentBattler}
-                    category={this.state.category}
-                    songTitle={this.state.trackTitle}
-                    />
-            case 'round-over':
-                return <RoundWinner 
-                    player={this.state.winner}
-                    category={this.state.category}
-                    albumArt={this.state.albumArt}
-                    />
-            case 'game-over':
-                return <RoundWinner 
-                player={this.state.winner}
-                category={this.state.category}
-                albumArt={this.state.albumArt}
-                gameOver={true}
-                    />
-            default:
-                return <Waiting message={"Waiting"}/>
-        }
-    }
-
-    judgeDisplayDriver(){
-        switch(this.state.phase){
-            case 'join':
-                return <Join onClick={(e, gameState) => this.joinGame(e, gameState)}/>
-            case 'waiting-room':
-            case 'wait':
-                return <Waiting message={"Waiting"}/>
-            case 'lock':
-                return <LockScreen/>
             case 'round-play':
                 return <TrackPlaying 
                     albumArt={this.state.albumArt}
@@ -246,6 +138,7 @@ class MainDisplay extends Component {
                 if (this.state.voting) {
                     return <Vote category={this.state.category} roomCode={this.state.roomcode} finishVoting={() => this.finishVoting()}/>
                 }
+                // return <Waiting message={"Waiting"}/>
             case 'game-over':
                 return <RoundWinner 
                 player={this.state.winner}
@@ -256,32 +149,20 @@ class MainDisplay extends Component {
             default:
                 return <Waiting message={"Waiting"}/>
         }
-    }
-
-    headToHead(){
-        return (
-            <React.Fragment>
-                {(this.state.host && !this.state.keeper) && this.hostDisplayDriver()}
-                {(this.state.keeper && !this.state.host) && this.keeperDisplayDriver()}
-                {(this.state.keeper && this.state.host) && this.hostKeeperDisplayDriver()}
-                {(!this.state.host && !this.state.keeper) && this.judgeDisplayDriver()}
-            </React.Fragment>
-        );
-    }
-
-    freeForAll(){
-        return (
-            <div/>
-        );
     }
 
     render(){
         console.log('playerState', JSON.stringify(this.state));
+        updateUser(this.state.roomcode, this.state);
         return (
             <div>
-                <div className="app-background"  style={PARTY_BACKGROUND}/>
-                {!this.state.freeForAll && this.headToHead()}
-                {this.state.freeForAll && this.freeForAll()}
+                {/* <div className="app-background"  style={PARTY_BACKGROUND}/> */}
+                {!['round-play', 'round-over', 'game-over'].includes(this.state.phase) && 
+                  <img height={'55%'} width={'150%'} src={"background"} style={{position: 'absolute', bottom: 0}}/>
+                }
+                <div className="background"/>
+                <PlayerList/>
+                {/* <this.DisplayDriver/> */}
             </div>
         );
     }

@@ -1,7 +1,9 @@
 import * as actionTypes from '../actions/actionTypes';
 import * as actionCreators from '../actions/actionCreators';
 
-const defaultState = {};
+const defaultState = {
+    timed: false
+};
 
 const gamePlayReducers = (state=defaultState, action) => {
 
@@ -24,6 +26,13 @@ const gamePlayReducers = (state=defaultState, action) => {
                 ...state,
                 trackURI: ""
             };
+            break;
+        case actionTypes.SET_FREE_FOR_ALL:
+            return {
+                ...state,
+                freeForAll: true,
+                timed: true
+            }
             break;
         default: 
             return state;

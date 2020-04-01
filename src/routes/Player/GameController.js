@@ -49,24 +49,45 @@ class GameController {
 
         this.socket.on('player joined', (data) => {
 
-            const newState = {connected: true, phase: 'waiting-room'};
+            const newState = { connected: true, phase: 'waiting-room' };
             if (data.id) {
                 newState["id"] = data.id;
             }
             if (data.players) {
                 newState["players"] = data.players;
             }
+            if (data.freeForAll) {
+                newState["freeForAll"] = data.freeForAll;
+            }
 
             this.roundChangeCallback({...newState}, undefined, true);
+        });
+
+        this.socket.on('state override', (data) => {
+            this.roundChangeCallback(data, undefined, true);
         });
 
         this.socket.on('set role', (data) => {
             this.roundChangeCallback(data, undefined, true);
         });
 
+        this.socket.on('player update', (data) => {
+            // this.roundChangeCallback(data.property, );
+        });
+
         this.socket.on('disconnect', (data) => {
             console.log("i have disconnected.");
             window.location.reload();
+        });
+
+        this.socket.on('error', (data) => {
+            this.roundChangeCallback(data, undefined, true);
+        });
+
+        this.socket.on('invalid', (data) => {
+            if (data.error) {
+                localStorage.clear();
+            }
         });
 
         this.socket.on('game exit', (data) => {
@@ -75,13 +96,12 @@ class GameController {
     }
 
     startGame(gameCode, keepers) {
-        this.socket.emit('start', {gameCode, keepers});
+        this.socket.emit('start', { gameCode, keepers });
     }
 
     join(gameCode, username){
         console.log("joining");
-        this.socket.emit('join game', {gameCode, username});
-        
+        this.socket.emit('join game', { gameCode, username });   
     }
 
 
