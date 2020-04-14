@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import '../styles/settings.css';
 import { timeout } from 'q';
+import Switch from '@material-ui/core/Switch';
+import { makeStyles } from '@material-ui/core/styles';
+import { defaultSettings } from '../../../util/constants';
 
 
 export class Settings extends Component {
@@ -9,17 +12,20 @@ export class Settings extends Component {
         super(props);
 
         this.state = {
-            QuickMode: false,
-            categories: this.props.categories || ['Prom Night', 'Last Dance', 'Childhood Guilty Pleasure'],
-            playDuration: this.props.playDuration || 1
+            ...this.props.settings
         };
     }
 
-    onChange(e, property){
+    onChangeSlider(e, property){
         e.preventDefault();
-        console.log('setting property', property);
-        console.log('to be', e.target.value);
         this.setState({[property]: e.target.value});
+    }
+
+    changeValue(e, property, value) {
+        if (value < 0) {
+            return this.setState({ [property]: 0 });
+        }
+        return this.setState({ [property]: value });
     }
 
     updateCategories(e, index){
@@ -44,9 +50,7 @@ export class Settings extends Component {
     }
 
     generateCategories(){
-        const categories = this.state.categories;
-
-        const categoryElements = categories.map((category, i) => {
+        const categoryElements = this.state.categories.map((category, i) => {
             return (
                 <li className="category-list-item-container">
                     <div className="category-list-item">
@@ -70,32 +74,132 @@ export class Settings extends Component {
                             <h4 style={{fontSize: '.9em'}} className="--start-title">+ Add Category</h4>
                         </div>
 
-                        <div className="--start-btn" onClick={(e) => this.props.updateSettings(e, this.state)}>
-                            <h3 className="--start-title">Update</h3>
-                        </div>
-
                     </div>
             </div>
         );
     }
 
+    restoreDefaults() {
+        this.setState({
+            playDuration: defaultSettings.playDuration,
+            compNum: defaultSettings.compNum,
+            timeToSelect: defaultSettings.timeToSelect, 
+            timeToVote: defaultSettings.timeToVote, 
+            numRounds: defaultSettings.numRounds, 
+            timedSelection: defaultSettings.timedSelection, 
+            timedVoting: defaultSettings.timedVoting,
+            categorySelector: defaultSettings.categorySelector, // either host or judges
+            categories: defaultSettings.categories
+        });
+    }
+
+    btnSelectedStyle (btnLabel) {
+        const selectedChoiceStyle = { backgroundColor: 'mediumseagreen', border: "1px solid white" };
+        return this.state.categorySelector === btnLabel ? selectedChoiceStyle : {};
+    }
+
     render(){
+        
+        const { playDuration, compNum, timeToSelect, timeToVote, numRounds, timedSelection, timedVoting, categorySelector } = this.state;
         return (
+            <>
             <div className="settings-container">
-                <div className="--start-btn" onClick={(e) => this.props.updateSettings(e, this.state)}>
-                    <h3 className="--start-title">Back</h3>
-                </div>
                 <h2 className="settings-title">Settings</h2>
                 <div className="settings-radio-options-container">
                     <h3>Playback Duration</h3>
-                    <input type="range" min="0" max="1" step=".01" value={this.state.playDuration} className="slider" id="myRange" onChange={(e) => this.onChange(e, "playDuration")}/>
+                    <input type="range" min="0" max="1" step=".01" value={playDuration} className="slider" id="myRange" onChange={(e) => this.onChangeSlider(e, "playDuration")}/>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-radio-options-container">
+                    <h3 style={{ marginBottom: 0 }}>Number of Competitors</h3>
+                    <div className="num-player-setting">
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'compNum', compNum - 1)}><span className="dec-btn">-</span></div>
+                        <h1>{compNum}</h1>
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'compNum', compNum + 1)}><span className="inc-btn">+</span></div>
+                    </div>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-switch-options-container">
+                    <h3>Timed Song Selection</h3>
+                    <div className="switch-container">
+                        <Switch
+                            checked={timedSelection}
+                            onChange={(e) => this.onChangeSlider(e, 'timedSelection')}
+                            name="timed-voting"
+                            inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                    </div>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-radio-options-container">
+                    <h3>Time to Select Song</h3>
+                    <div className="num-player-setting">
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSelect', timeToSelect - 1)}><span className="dec-btn">-</span></div>
+                        <h1>{timeToSelect}</h1>
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSelect', timeToSelect + 1)}><span className="inc-btn">+</span></div>
+                    </div>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-switch-options-container">
+                    <h3>Timed Voting</h3>
+                    <div className="switch-container">
+                        <Switch
+                            checked={timedVoting}
+                            onChange={(e) => this.onChangeSlider(e, 'timedVoting')}
+                            name="timed-voting"
+                            inputProps={{ 'aria-label': 'secondary checkbox' }}
+                        />
+                    </div>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-radio-options-container">
+                    <h3>Time To Cast Vote</h3>
+                    <div className="num-player-setting">
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToVote', timeToVote - 1)}><span className="dec-btn">-</span></div>
+                        <h1>{timeToVote}</h1>
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToVote', timeToVote + 1)}><span className="inc-btn">+</span></div>
+                    </div>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-radio-options-container">
+                    <h3>Who Selects Categories</h3>
+                    <div className="btn-choice-container">
+                        <div className="btn-choice" style={this.btnSelectedStyle('host')} onClick={(e) => this.changeValue(e, 'categorySelector', 'host')}>
+                                <h4 style={{fontSize: '.9em'}} className="--start-title">Host</h4>
+                        </div>
+                        <div className="btn-choice" style={this.btnSelectedStyle('judges')} onClick={(e) => this.changeValue(e, 'categorySelector', 'judges')}>
+                            <h4 style={{fontSize: '.9em'}} className="--start-title">Judges</h4>
+                        </div>
+                    </div>
+                </div>
+                <hr className="settings-divider"/>
+                <div className="settings-radio-options-container">
+                    <h3>Number of Rounds</h3>
+                    <div className="num-player-setting">
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numRounds', numRounds - 1)}><span className="dec-btn">-</span></div>
+                        <h1>{numRounds}</h1>
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numRounds', numRounds + 1)}><span className="inc-btn">+</span></div>
+                    </div>
                 </div>
                 <hr className="settings-divider"/>
                 <h3 className="settings-categories-title">Categories</h3>
                 <div className="settings-categories-container">
                     {this.generateCategories()}
                 </div>
-            </div>
+
+                </div>
+                <div className="nav-buttons">
+                    <div className="nav-btn" onClick={ () => this.props.cancel()}>
+                        <span className="nav-btn-text"> Cancel </span>
+                    </div>
+                    <div className="nav-btn" onClick={() => this.restoreDefaults()}>
+                        <span className="nav-btn-text" style={{ fontSize: '.9em' }}> Restore Defaults </span>
+                    </div>
+                    <div className="nav-btn">
+                        <span className="nav-btn-text" onClick={(e) => this.props.updateSettings(e, this.state)}> Next </span>
+                    </div>
+                </div>
+            </>
         );
     }
 }

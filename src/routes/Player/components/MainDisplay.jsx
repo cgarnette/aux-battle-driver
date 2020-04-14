@@ -2,13 +2,12 @@ import React, {Component} from 'react';
 import {Join} from './Join';
 import { Waiting, TrackPlaying, RoundWinner, LockScreen, CategorySubmit } from '../common/GenericMessages';
 import GameController from '../GameController';
-import { Settings } from './Settings';
-import { PlayerList } from './PlayerList';
+import Start from './Start';
 import { TrackSearch } from './TrackSearch';
 import { Vote } from './Vote';
 import './global.css';
 import { updateSettings, updateUser } from '../../../util/api/apiHelper';
-import { PARTY_BACKGROUND } from '../../../util/constants';
+import { PARTY_BACKGROUND, defaultSettings } from '../../../util/constants';
 import background from '../../../util/crowd.png';
 import * as _ from "lodash";
 
@@ -105,10 +104,7 @@ class MainDisplay extends Component {
                 return <LockScreen/>
             case 'waiting-room':
                 if (this.state.host) {
-                    if (this.state.showSettings) {
-                        return <Settings categories={this.state.categories} playDuration={.2} updateSettings={(e, settings) => this.updateSettings(e, settings)}/>
-                    }
-                    return <PlayerList players={this.state.players} start={(e, keepers) => this.startGame(e, keepers)} showSettings={() => this.setState({showSettings: true})}/>
+                    return <Start players={this.state.players} start={(e, keepers) => this.startGame(e, keepers)}/>
                 }
                 return <Waiting message={"Waiting"}/>
 
@@ -157,11 +153,8 @@ class MainDisplay extends Component {
         return (
             <div>
                 {/* <div className="app-background"  style={PARTY_BACKGROUND}/> */}
-                {!['round-play', 'round-over', 'game-over'].includes(this.state.phase) && 
-                  <img height={'55%'} width={'150%'} src={"background"} style={{position: 'absolute', bottom: 0}}/>
-                }
-                <div className="background"/>
-                <PlayerList/>
+                <div className='--background'/>
+                <Start players={this.state.players} start={(e, keepers) => this.startGame(e, keepers)}/>
                 {/* <this.DisplayDriver/> */}
             </div>
         );

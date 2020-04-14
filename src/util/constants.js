@@ -11,3 +11,19 @@ export const AUX_BATTLE_SERVER = "http://localhost";
 
 // export const SPOTIFY_LOGIN_URL = "https://dq6qwqode549m.cloudfront.net/spotify_login";
 // export const AUX_BATTLE_SERVER = 'https://dq6qwqode549m.cloudfront.net';
+
+export const defaultSettings = {
+    playDuration: .2,
+    compNum: 2,
+    timeToSelect: 60, 
+    timeToVote: 15, 
+    numRounds: 3, 
+    timedSelection: true, 
+    timedVoting: true,
+    categorySelector: 'host', // either host or judges
+    categories: [
+        'Prom Night',
+        'Last Dance', 
+        'Childhood Guilty Pleasure'
+    ]
+};

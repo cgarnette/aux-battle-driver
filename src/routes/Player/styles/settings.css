@@ -2,10 +2,20 @@
     margin-top: 2em;
     position: relative;
     color: whitesmoke;
+    overflow-y: scroll;
+    max-height: 38em;
+    margin-bottom: 2em;
 }
 
 .settings-radio-options-container {
     margin-left: 1em;
+}
+
+.settings-switch-options-container {
+    margin-left: 1em;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 4em;
 }
 
 .settings-mode-selector {
@@ -24,8 +34,8 @@
 
 .category-list {
     list-style: none;
-    max-height: 22em;
     overflow-y: scroll;
+    max-height: 15em;
 }
 
 .remove-btn-container { 
@@ -46,6 +56,39 @@
     font-weight: bold;
     margin-left: .45em;
     margin-bottom: .2em;
+}
+
+.inc-btn-container { 
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 2em;
+    cursor: pointer;
+    border-radius: 50px;
+    height: 2em;
+    margin-top: .4em;
+    margin-right: 1em;
+    background-color: rgba(211, 211, 211, 0.486);
+    margin: calc(2rem - .14285714em) 0 1rem
+}
+
+.inc-btn {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: .45em;
+    margin-bottom: .2em;
+}
+
+.dec-btn {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-left: .45em;
+    margin-bottom: .2em;
+}
+
+.num-player-setting {
+    display: flex;
+    justify-content: space-evenly;
 }
 
 .category-input {
@@ -71,7 +114,7 @@
 
 .settings-action-buttons {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin-top: 2.5em;
     margin-right: 2em;
     margin-left: 3em;
@@ -112,5 +155,22 @@
     height: 25px;
     border-radius: 50%;
     background: #4CAF50;
+    cursor: pointer;
+}
+
+.btn-choice-container {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.btn-choice {
+    background-color: rgba(211, 211, 211, 0.486);
+    width: 7em;
+    height: 2.5em;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    border-radius: 10px;
     cursor: pointer;
 }
