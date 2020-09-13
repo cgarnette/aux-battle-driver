@@ -9,15 +9,15 @@ export class PlayerList extends Component {
         this.state = {
             players: this.props.players || [{username: "Tony", id: "33245232"}, {username: "Amanda", id: "3245234"}, {username: "Sarah", id: "325223532"}, {username: "Tony", id: "33245232"}, {username: "Amanda", id: "3245234"}, {username: "Sarah", id: "325223532"}],
             selected: [],
-            numContestants: this.props.numContestants || 6
+            numDJs: this.props.numDJs || 6
         }
     }
 
-    // componentDidUpdate(prevProps, prevState) {
-    //     if (this.props.players !== this.state.players) {
-    //         this.setState({players: this.props.players});
-    //     }
-    // }
+    componentDidUpdate(prevProps, prevState) {
+        if (this.props.players !== this.state.players) {
+            this.setState({ players: this.props.players });
+        }
+    }
 
     setSelected(e, i){
         e.preventDefault();
@@ -26,7 +26,7 @@ export class PlayerList extends Component {
         const foundIndex = this.isSelected(this.state.players[i]);
         if (foundIndex !== -1) {
             selected.splice(foundIndex, 1);
-        } else if (selected.length < this.state.numContestants){
+        } else if (selected.length < this.state.numDJs){
             selected.push(this.state.players[i]);
         }
 
@@ -96,18 +96,18 @@ export class PlayerList extends Component {
     }
 
     multiPlayer() {
-        const numContestants = this.state.numContestants;
+        const numDJs = this.state.numDJs;
 
         const size = 9;
-        const style = { height: `${size - numContestants}em`, width: `${size - numContestants}em` };
-        const fontSize = 2 - ((numContestants - 2) * .5);
+        const style = { height: `${size - numDJs}em`, width: `${size - numDJs}em` };
+        const fontSize = { fontSize: 2 - ((numDJs - 2) * .5) };
         
         const playerDisplay = Array();
         
-        for (let i = 0; i < numContestants; i ++) {
+        for (let i = 0; i < numDJs; i ++) {
             playerDisplay.push(
-                <div className="--start-btn-container" style={style}>
-                    <div className="container" style={fontSize}>
+                <div className="--start-btn-container" style={{...style}}>
+                    <div className="container" style={{...fontSize}}>
                         <span className="competitor-img-label">{this.getDisplayAvi(i)}</span>
                     </div>
                 </div>
@@ -125,19 +125,27 @@ export class PlayerList extends Component {
         
     }
 
+    start(e) {
+        const startDisabled = this.state.selected.length < this.state.numDJs;
+
+        if (startDisabled) return;
+
+        this.props.start(e, this.state.selected);
+    }
+
     render(){
-        const startDisabled = this.state.selected.length < 2;
+        const startDisabled = this.state.selected.length < this.start.numDJs;
         const myStyle = startDisabled ? {color: 'lightgrey'} : {};
 
         return (
             <div>
                 <div className="--players-list-container">
                     
-                    {this.state.numContestants === 2 && this.twoPlayer()}
-                    {this.state.numContestants > 2 && this.multiPlayer()}
+                    {this.state.numDJs === 2 && this.twoPlayer()}
+                    {this.state.numDJs > 2 && this.multiPlayer()}
                     <hr/>
                     <div className="--player-select-instruction">
-                        Select Competitors
+                        Choose Up To 6 DJs
                     </div>
                     <div className="--players-list-display-container">
                         {this.displayPlayers()}
@@ -147,8 +155,8 @@ export class PlayerList extends Component {
                     <div className="nav-btn" onClick={() => this.props.back()}>
                         <span className="nav-btn-text"> Back </span>
                     </div>
-                    <div className="nav-btn">
-                        <span className="nav-btn-text"> Start </span>
+                    <div className="nav-btn" style={myStyle}>
+                        <span className="nav-btn-text" onClick={(e) => this.start(e)}> Start </span>
                     </div>
                 </div>
             </div>

@@ -47,13 +47,13 @@ export const updateSettings = (roomCode, settings) => {
     return {error: "error"};
 };
 
-export const getAuxKeepers = (roomCode) => {
-    return fetch(`${AUX_BATTLE_SERVER}/battle/aux_keepers?roomCode=${roomCode}`).then(response => response.json());
+export const getDJs = (roomCode) => {
+    return fetch(`${AUX_BATTLE_SERVER}/battle/djs?roomCode=${roomCode}`).then(response => response.json());
 }
 
 export const castVote = (roomCode, keeper) => {
     // console.log("castingVote", roomCode, keeper);
-    return fetch(`${AUX_BATTLE_SERVER}/vote?roomCode=${roomCode}&keeperId=${keeper.id}`).then(response => response.json());
+    return fetch(`${AUX_BATTLE_SERVER}/vote?roomCode=${roomCode}&djId=${keeper.id}`).then(response => response.json());
 }
 
 export const updateUser = (roomCode, state) => {

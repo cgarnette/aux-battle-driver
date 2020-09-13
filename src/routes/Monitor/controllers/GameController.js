@@ -39,13 +39,13 @@ class GameController {
 
         this.socket.on('connect', () => {
             this.roundChangeCallback("connected", true);
-            this.socket.emit('init', {gameCode: this.gameCode} )
+            this.socket.emit('init', { gameCode: this.gameCode } )
         });
 
         this.socket.on('phase', (data) => {
             console.log("state change", data);
             if (data.info) {
-                this.roundChangeCallback({phase: data.phase, ...data.info}, undefined, true);
+                this.roundChangeCallback({ phase: data.phase, ...data.info }, undefined, true);
             } else {
                 this.roundChangeCallback("phase", data.phase);
             }
@@ -56,21 +56,21 @@ class GameController {
         });
 
         this.socket.on('player joined', (data) => {
-            this.roundChangeCallback({players: data.players}, undefined, true);
+            this.roundChangeCallback({ players: data.players }, undefined, true);
         });
 
+        this.socket.on('settings update', (data) => {
+            console.log('incoming settings update', data);
+            this.roundChangeCallback('settings', data, false);
+        })
+
         this.socket.on('disconnect', (data) => {
-            console.log("i have disconnected.");
             window.location.reload();
         });
 
         this.socket.on('game exit', (data) => {
             window.location.reload();
         });
-
-        // this.socket.on('token', (data) => {
-        //     this.roundChangeCallback("token", data.token);
-        // });
     }
 
     songFinished(){

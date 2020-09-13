@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin: 2em;
+    margin: 1em;
 }
 
 .track-search-container {
@@ -158,7 +158,7 @@
 }
 
 .--divider {
-    margin-top: 2em;
+    margin-top: 1em;
     width: 20em;
 }
 

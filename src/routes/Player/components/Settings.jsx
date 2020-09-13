@@ -21,6 +21,11 @@ export class Settings extends Component {
         this.setState({[property]: e.target.value});
     }
 
+    changeToggle(e, property) {
+        e.preventDefault();
+        this.setState({ [property]: !this.state[property] });
+    }
+
     changeValue(e, property, value) {
         if (value < 0) {
             return this.setState({ [property]: 0 });
@@ -82,12 +87,14 @@ export class Settings extends Component {
     restoreDefaults() {
         this.setState({
             playDuration: defaultSettings.playDuration,
-            compNum: defaultSettings.compNum,
+            numDJs: defaultSettings.numDJs,
             timeToSelect: defaultSettings.timeToSelect, 
             timeToVote: defaultSettings.timeToVote, 
             numRounds: defaultSettings.numRounds, 
             timedSelection: defaultSettings.timedSelection, 
             timedVoting: defaultSettings.timedVoting,
+            timedCats: defaultSettings.timedCats,
+            timeToSubmitCat: defaultSettings.timeToSubmitCat,
             categorySelector: defaultSettings.categorySelector, // either host or judges
             categories: defaultSettings.categories
         });
@@ -100,7 +107,7 @@ export class Settings extends Component {
 
     render(){
         
-        const { playDuration, compNum, timeToSelect, timeToVote, numRounds, timedSelection, timedVoting, categorySelector } = this.state;
+        const { playDuration, numDJs, timeToSelect, timeToVote, numRounds, timedSelection, timedVoting, categorySelector, timedCats, timeToSubmitCat } = this.state;
         return (
             <>
             <div className="settings-container">
@@ -113,9 +120,9 @@ export class Settings extends Component {
                 <div className="settings-radio-options-container">
                     <h3 style={{ marginBottom: 0 }}>Number of Competitors</h3>
                     <div className="num-player-setting">
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'compNum', compNum - 1)}><span className="dec-btn">-</span></div>
-                        <h1>{compNum}</h1>
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'compNum', compNum + 1)}><span className="inc-btn">+</span></div>
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numDJs', numDJs - 1)}><span className="dec-btn">-</span></div>
+                        <h1>{numDJs}</h1>
+                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numDJs', numDJs + 1)}><span className="inc-btn">+</span></div>
                     </div>
                 </div>
                 <hr className="settings-divider"/>
@@ -124,42 +131,48 @@ export class Settings extends Component {
                     <div className="switch-container">
                         <Switch
                             checked={timedSelection}
-                            onChange={(e) => this.onChangeSlider(e, 'timedSelection')}
+                            onChange={(e) => this.changeToggle(e, 'timedSelection')}
                             name="timed-voting"
                             inputProps={{ 'aria-label': 'secondary checkbox' }}
                         />
                     </div>
                 </div>
-                <hr className="settings-divider"/>
-                <div className="settings-radio-options-container">
-                    <h3>Time to Select Song</h3>
-                    <div className="num-player-setting">
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSelect', timeToSelect - 1)}><span className="dec-btn">-</span></div>
-                        <h1>{timeToSelect}</h1>
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSelect', timeToSelect + 1)}><span className="inc-btn">+</span></div>
+
+                {timedSelection && <>
+                    <hr className="settings-divider"/>
+                    <div className="settings-radio-options-container">
+                        <h3>Time to Select Song</h3>
+                        <div className="num-player-setting">
+                            <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSelect', timeToSelect - 1)}><span className="dec-btn">-</span></div>
+                            <h1>{timeToSelect}</h1>
+                            <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSelect', timeToSelect + 1)}><span className="inc-btn">+</span></div>
+                        </div>
                     </div>
-                </div>
+                </>}
+
                 <hr className="settings-divider"/>
                 <div className="settings-switch-options-container">
                     <h3>Timed Voting</h3>
                     <div className="switch-container">
                         <Switch
                             checked={timedVoting}
-                            onChange={(e) => this.onChangeSlider(e, 'timedVoting')}
+                            onChange={(e) => this.changeToggle(e, 'timedVoting')}
                             name="timed-voting"
                             inputProps={{ 'aria-label': 'secondary checkbox' }}
                         />
                     </div>
                 </div>
-                <hr className="settings-divider"/>
-                <div className="settings-radio-options-container">
-                    <h3>Time To Cast Vote</h3>
-                    <div className="num-player-setting">
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToVote', timeToVote - 1)}><span className="dec-btn">-</span></div>
-                        <h1>{timeToVote}</h1>
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToVote', timeToVote + 1)}><span className="inc-btn">+</span></div>
+                {timedVoting && <>
+                    <hr className="settings-divider"/>
+                    <div className="settings-radio-options-container">
+                        <h3>Time To Cast Vote</h3>
+                        <div className="num-player-setting">
+                            <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToVote', timeToVote - 1)}><span className="dec-btn">-</span></div>
+                            <h1>{timeToVote}</h1>
+                            <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToVote', timeToVote + 1)}><span className="inc-btn">+</span></div>
+                        </div>
                     </div>
-                </div>
+                </>}
                 <hr className="settings-divider"/>
                 <div className="settings-radio-options-container">
                     <h3>Who Selects Categories</h3>
@@ -172,20 +185,47 @@ export class Settings extends Component {
                         </div>
                     </div>
                 </div>
-                <hr className="settings-divider"/>
-                <div className="settings-radio-options-container">
-                    <h3>Number of Rounds</h3>
-                    <div className="num-player-setting">
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numRounds', numRounds - 1)}><span className="dec-btn">-</span></div>
-                        <h1>{numRounds}</h1>
-                        <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numRounds', numRounds + 1)}><span className="inc-btn">+</span></div>
+                {categorySelector === 'judges' && <>
+                    <hr className="settings-divider"/>
+                    <div className="settings-switch-options-container">
+                        <h3>Timed Category Submissions</h3>
+                        <div className="switch-container">
+                            <Switch
+                                checked={timedCats}
+                                onChange={(e) => this.changeToggle(e, 'timedCats')}
+                                name="timed-categories"
+                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                            />
+                        </div>
                     </div>
-                </div>
-                <hr className="settings-divider"/>
-                <h3 className="settings-categories-title">Categories</h3>
-                <div className="settings-categories-container">
-                    {this.generateCategories()}
-                </div>
+                    {timedCats && <>
+                        <hr className="settings-divider"/>
+                        <div className="settings-radio-options-container">
+                            <h3>Time To Submit Category</h3>
+                            <div className="num-player-setting">
+                                <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSubmitCat', timeToVote - 1)}><span className="dec-btn">-</span></div>
+                                <h1>{timeToSubmitCat}</h1>
+                                <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'timeToSubmitCat', timeToVote + 1)}><span className="inc-btn">+</span></div>
+                            </div>
+                        </div>
+                    </>}
+                    <hr className="settings-divider"/>
+                    <div className="settings-radio-options-container">
+                        <h3>Number of Rounds</h3>
+                        <div className="num-player-setting">
+                            <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numRounds', numRounds - 1)}><span className="dec-btn">-</span></div>
+                            <h1>{numRounds}</h1>
+                            <div className="inc-btn-container" onClick={(e) => this.changeValue(e, 'numRounds', numRounds + 1)}><span className="inc-btn">+</span></div>
+                        </div>
+                    </div>
+                </>}
+                {categorySelector === 'host' && <>
+                    <hr className="settings-divider"/>
+                    <h3 className="settings-categories-title">Categories</h3>
+                    <div className="settings-categories-container">
+                        {this.generateCategories()}
+                    </div>
+                </>}
 
                 </div>
                 <div className="nav-buttons">

@@ -95,8 +95,8 @@ class GameController {
         });
     }
 
-    startGame(gameCode, keepers) {
-        this.socket.emit('start', { gameCode, keepers });
+    startGame(gameCode, djs) {
+        this.socket.emit('start', { gameCode, djs });
     }
 
     join(gameCode, username){

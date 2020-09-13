@@ -12,7 +12,8 @@ class Start extends Component {
         this.state = {
             showSettings: false,
             showPlayerList: false,
-            settings: defaultSettings
+            settings: defaultSettings,
+            roomcode: this.props.roomcode
         };
     }
 
@@ -23,8 +24,9 @@ class Start extends Component {
 
     async updateSettings(e, settings){
         e.preventDefault();
+        console.log('updating settings', settings);
         await updateSettings(this.state.roomcode, settings);
-        this.setState({ showSettings: false, showPlayerList: true });
+        this.setState({ showSettings: false, showPlayerList: true, settings });
     }
 
     showSettings() {
@@ -44,7 +46,7 @@ class Start extends Component {
         if (showSettings) {
             return <Settings updateSettings={(e, settings) => this.updateSettings(e, settings)} settings={settings} cancel={() => this.backToMain()}/>
         } else if (showPlayerList) {
-            return <PlayerList players={this.props.players} start={this.props.start} back={() => this.backToMain()}/>
+            return <PlayerList players={this.props.players} numDJs={settings.numDJs} start={this.props.start} back={() => this.backToMain()}/>
         } else {
             return this.startScreen();
         }

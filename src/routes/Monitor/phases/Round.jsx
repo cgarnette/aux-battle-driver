@@ -6,19 +6,21 @@ export class Round extends Component {
         super(props)
     }
 
-    template = (child, confetti) => {
+    template = (child, confetti, gameover=false) => {
         const height = window.innerHeight;
         const width = window.innerWidth;
+        const displayText = gameover ? "Game Over" : (this.props.category || "");
+
         return (
                 <div className={"intro-screen"}>
                     {confetti && <Confetti width={width} height={height}/>}
                     <div className="game-round-info-container">
                         <div className="game-round-info">
-                            <div className="round-count">
+                            {!this.gameover && <div className="round-count">
                                 {this.props.roundNum && `Round ${this.props.roundNum}`}
-                            </div>
+                            </div>}
                             <div className="category-display">
-                                {this.props.category || ""}
+                                {displayText}
                             </div>
                         </div>
                     </div>
@@ -120,7 +122,7 @@ export class Round extends Component {
                 return (
                     <div>
                         <div className="background" style={{backgroundImage: `url(${this.props.albumArt})`}}/>
-                        {this.template(this.gameWinner(), true)}
+                        {this.template(this.gameWinner(), true, true)}
                     </div>
                 ); 
             default:

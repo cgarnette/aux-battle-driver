@@ -23,13 +23,10 @@ export const Intro = (props) => {
 }
 
 const auxBattleStartButtons = (props) => {
-
-    
-
     return (
         <div className="start-btn-inner-container">
-            <div className="start-btn"><a className="login-btn-link" onClick={() => props.startBattle()}><h3>Head-to-Head</h3></a></div>
-            <div className="start-btn"><a className="login-btn-link" onClick={() => props.startFree()}><h3>Free for All</h3></a></div>
+            <div className="start-btn"><a className="login-btn-link" onClick={() => props.startBattle()}><h3>Start</h3></a></div>
+            {/* <div className="start-btn"><a className="login-btn-link" onClick={() => props.startFree()}><h3>Free for All</h3></a></div> */}
         </div>
     );
 };

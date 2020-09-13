@@ -14,12 +14,14 @@ export const AUX_BATTLE_SERVER = "http://localhost";
 
 export const defaultSettings = {
     playDuration: .2,
-    compNum: 2,
+    numDJs: 2,
     timeToSelect: 60, 
     timeToVote: 15, 
     numRounds: 3, 
     timedSelection: true, 
     timedVoting: true,
+    timeToSubmitCat: 30,
+    timedCats: true,
     categorySelector: 'host', // either host or judges
     categories: [
         'Prom Night',

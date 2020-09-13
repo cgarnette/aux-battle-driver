@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Button, Icon} from 'semantic-ui-react';
 import '../styles/vote.css';
-import {getAuxKeepers, castVote} from '../../../util/api/apiHelper';
+import {getDJs, castVote} from '../../../util/api/apiHelper';
 import * as _ from 'lodash';
 
 
@@ -22,7 +22,7 @@ export class Vote extends Component {
         super(props);
 
         this.state = {
-            keepers: [],
+            djs: [],
             category: this.props.category,
             roomCode: this.props.roomCode,
             selectedOption: {}
@@ -30,21 +30,21 @@ export class Vote extends Component {
     }
 
     componentDidMount(){
-        if (this.state.keepers.length < 1) {
-            this.getKeepers(this.state.roomCode);
+        if (this.state.djs.length < 1) {
+            this.getDJs(this.state.roomCode);
         }
     }
 
-    async getKeepers(){
-        const keepers = await getAuxKeepers(this.state.roomCode);
-        this.setState({...keepers})
+    async getDJs(){
+        const djs = await getDJs(this.state.roomCode);
+        this.setState({...djs})
     }
 
-    setSelected(keeper){
-        if (this.state.selectedOption.id === keeper.id) {
+    setSelected(dj){
+        if (this.state.selectedOption.id === dj.id) {
             this.setState({selectedOption: {}});
         } else {
-            this.setState({selectedOption: keeper});
+            this.setState({selectedOption: dj});
         }
     }
 
@@ -57,16 +57,16 @@ export class Vote extends Component {
 
     displayVotingOptions(){
 
-        const options = this.state.keepers.map(keeper => {
-            const className = this.state.selectedOption.id === keeper.id ? "voting-option-item-container-selected" : "voting-option-item-container";
+        const options = this.state.djs.map(dj => {
+            const className = this.state.selectedOption.id === dj.id ? "voting-option-item-container-selected" : "voting-option-item-container";
             return (
                 <li>
-                    <div className={className} onClick={() => this.setSelected(keeper)}>
-                        <h3 className="option-keeper-username">{keeper.username}</h3>
+                    <div className={className} onClick={() => this.setSelected(dj)}>
+                        <h3 className="option-keeper-username">{dj.username}</h3>
                         <div className="album-art"> 
-                            <img src={keeper.albumArt} height={"150"}/>
+                            <img src={dj.albumArt} height={"150"}/>
                         </div>
-                        <h3 className="option-trackTitle">{keeper.trackTitle}</h3>
+                        <h3 className="option-trackTitle">{dj.trackTitle}</h3>
                     </div>
                 </li>
             );
@@ -92,8 +92,8 @@ export class Vote extends Component {
                     <hr className="divider"/>
                 </div>
                 
-                {this.state.keepers.length > 0 && this.displayVotingOptions()}
-                {this.state.keepers.length < 1 && <span>Loading <Icon name="spinner" loading size="small"/></span>}
+                {this.state.djs.length > 0 && this.displayVotingOptions()}
+                {this.state.djs.length < 1 && <span>Loading <Icon name="spinner" loading size="small"/></span>}
             </div>
         );
     }

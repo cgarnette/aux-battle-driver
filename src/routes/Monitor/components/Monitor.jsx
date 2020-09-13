@@ -51,7 +51,15 @@ class Monitor extends Component {
             category: undefined,
             players: [],
             playDuration: .2,
-            timeRemaining: 30
+            timeRemaining: 30,
+            settings: {
+              timedSelection: false,
+              timeToSelect: 60,
+              timedVoting: false,
+              timeToVote: 15,
+              timedCats: false,
+              timeToSubmitCat: 30
+            }
         };
     }
 
@@ -71,6 +79,8 @@ class Monitor extends Component {
 
     setTimer(duration, callback) {
       console.log('settings during: ', this.state.phase);
+      console.log("time remaining", this.state.timeRemaining);
+      
       this.setState({
         timer: setInterval(() => this.timerTick(callback), 1000),
         timeRemaining: duration
@@ -94,7 +104,6 @@ class Monitor extends Component {
     }
     
     clearTimer(){
-
       clearInterval(this.state.timer);
       this.setState({
         timeRemaining: 0,
@@ -135,12 +144,11 @@ class Monitor extends Component {
         case "start":
           return <Intro startBattle={startBattle} startFree={startFree} title="Aux Battle"/>
         case "join":
-          (this.state.timed && !this.state.timer) && this.setTimer(20, () => closeJoinPhase(this.state.roomCode))
           return <Join roomCode={this.state.roomCode} players={this.state.players}/>
         case "game start":
           return <MessageDisplay gameType="Aux Battle" message={"Game Has Started!"}/>
         case "track-selection":
-          (this.state.timed && !this.state.timer) && this.setTimer(45, () => startPlaybackRound(this.state.roomCode));
+          (this.state.settings.timedSelection && !this.state.timer) && this.setTimer(this.state.settings.timeToSelect, () => startPlaybackRound(this.state.roomCode));
           this.playbackController.setPlaybackDuration(this.state.playDuration);
           return <CategoryDisplay category={this.state.category}/>
         case "round-play":
@@ -152,7 +160,7 @@ class Monitor extends Component {
         case "wait":
           return <MessageDisplay gameType="Aux Battle" message={"Loading..."}/>
         case "vote":
-          (this.state.timed && !this.state.timer) && this.setTimer(15, () => endVotePhase(this.state.roomCode));
+          (this.state.settings.timedVoting && !this.state.timer) && this.setTimer(this.state.settings.timeToVote, () => endVotePhase(this.state.roomCode));
           return <MessageDisplay gameType="Aux Battle" message={"Voting is now open!"}/>
         case "round-over":
           return <Round round="roundWinner" category={this.state.category} preview={this.state.preview} roundNum={this.state.roundNum} albumArt={this.state.albumArt} winner={this.state.winner}/>
@@ -161,7 +169,7 @@ class Monitor extends Component {
         case "get ready":
           return <MessageDisplay gameType="Aux Battle" message={"Judges Prepare to Vote"}/>
         case "category-submission":
-          !this.state.timer && this.setTimer(35, () => startTrackSelection(this.state.roomCode))
+          this.state.settings.timedCats && this.setTimer(this.state.settings.timeToSubmitCat, () => startTrackSelection(this.state.roomCode))
           return <MessageDisplay gameType="Aux Battle" message={"Category Submission is Open!"}/>
         case "leaderboard":
           return <ScoreBoard scoreboard={this.state.scoreboard}/>
@@ -180,7 +188,13 @@ class Monitor extends Component {
     }
 
     showTimer(){
-      if (this.state.timed && ['join', 'category-submission', 'track-selection', 'vote'].includes(this.state.phase)) {
+      if (this.state.settings.timedVoting && this.state.phase === 'vote') {
+        return true;
+      }
+      else if (this.state.settings.timedSelection && this.state.phase === 'track-selection') {
+        return true;
+      }
+      else if (this.state.settings.timedCats && this.state.phase === 'category-submission') {
         return true;
       }
 

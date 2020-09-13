@@ -31,7 +31,7 @@ class MainDisplay extends Component {
             id: undefined,
             connected: false,
             host: false,
-            auxKeeper: false,
+            dj: false,
             players: [],
             showSettings: false,
             categories: [],
@@ -71,14 +71,14 @@ class MainDisplay extends Component {
         localStorage.setItem('username', username);
         localStorage.setItem('roomcode', roomcode);
 
-        this.setState({roomcode, username});
+        this.setState({ roomcode, username });
     }
 
-    startGame(e, keepers) {
+    startGame(e, djs) {
         e.preventDefault();
 
         const roomcode = this.state.roomcode;
-        this.controller.startGame(roomcode, keepers);
+        this.controller.startGame(roomcode, djs);
     }
 
     async updateSettings(e, settings){
@@ -104,15 +104,18 @@ class MainDisplay extends Component {
                 return <LockScreen/>
             case 'waiting-room':
                 if (this.state.host) {
-                    return <Start players={this.state.players} start={(e, keepers) => this.startGame(e, keepers)}/>
+                    return <Start roomcode={this.state.roomcode} players={this.state.players} start={(e, djs) => this.startGame(e, djs)}/>
                 }
                 return <Waiting message={"Waiting"}/>
 
             case 'category-submission':
-                return <CategorySubmit roomcode={this.state.roomcode} lock={() => this.setState({phase: 'wait'})}/>
+                if (!this.state.dj) {
+                    return <CategorySubmit roomcode={this.state.roomcode} lock={() => this.setState({ phase: 'wait' })}/>
+                }
+                return <Waiting message={"Waiting"}/>
                 
             case 'track-selection':
-                if (this.state.showTrackSearch && this.startGame.keeper) {
+                if (this.state.showTrackSearch && this.state.dj) {
                     return <TrackSearch roomType={this.state.roomType} category={this.state.category} playerId={this.state.id} roomCode={this.state.roomcode} submissionSuccessful={() => this.hideTrackSearch()}/>
                 }
                 return <Waiting message={"Waiting"}/>
@@ -131,10 +134,10 @@ class MainDisplay extends Component {
                 albumArt={this.state.albumArt}
                 />
             case 'vote':
-                if (this.state.voting) {
+                if (this.state.voting && !this.state.dj) {
                     return <Vote category={this.state.category} roomCode={this.state.roomcode} finishVoting={() => this.finishVoting()}/>
                 }
-                // return <Waiting message={"Waiting"}/>
+                return <Waiting message={"Waiting"}/>
             case 'game-over':
                 return <RoundWinner 
                 player={this.state.winner}
@@ -154,8 +157,8 @@ class MainDisplay extends Component {
             <div>
                 {/* <div className="app-background"  style={PARTY_BACKGROUND}/> */}
                 <div className='--background'/>
-                <Start players={this.state.players} start={(e, keepers) => this.startGame(e, keepers)}/>
-                {/* <this.DisplayDriver/> */}
+                {/* <Start players={this.state.players} start={(e, djs) => this.startGame(e, djs)}/> */}
+                {this.DisplayDriver()}
             </div>
         );
     }
