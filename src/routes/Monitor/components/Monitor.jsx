@@ -27,6 +27,38 @@ import * as _ from 'lodash';
 
 import background from '../../../util/crowd.png';
 
+
+/**
+ * Purpose:
+ * Route the application between the various views.
+ * 
+ * 
+ * Sample State:
+ * token,
+ * roomCode,
+ * gameStarted,
+ * currentTrack
+ * phase,
+ * connected,
+ * trackURI,
+ * roundNum,
+ * currentBattler,
+ * currentBattlerImg
+ * category,
+ * tempCode,
+ * players,
+ * playDuration,
+ * timeRemaining,
+ * settings: {
+ * timedSelection,
+ * timeToSelect,
+ * timedVoting,
+ * timeToVote,
+ * timedCats,
+ * timeToSubmitCat
+ * }
+ */
+
 class Monitor extends Component {
     constructor(props) {
         super(props);
@@ -34,21 +66,12 @@ class Monitor extends Component {
         this.playerCheckInterval = setInterval(() => this.checkForPlayer(), 1000);
         this.playing = false;
 
-        console.log('props', this.props);
-        console.log('action creators', gameActions);
-
         this.state = {
-            token: undefined,
-            roomCode: undefined,
             gameStarted: false,
-            currentTrack: undefined,
             phase: "start",
             connected: false,
             trackURI: "",
             roundNum: 1,
-            currentBattler: undefined,
-            currentBattlerImg: undefined,
-            category: undefined,
             players: [],
             playDuration: .2,
             timeRemaining: 30,
@@ -71,16 +94,13 @@ class Monitor extends Component {
       if (!this.gameController && this.state.roomCode) {
         this.gameController = new GameController(this.props.updateStore, this.state.roomCode);
       }
-      console.log("props", _.cloneDeep(this.props));
+
       if (this.props.gameState !== prevProps.gameState) {
         this.setState({...this.props.gameState, ...this.props.playbackState});
       }
     }
 
     setTimer(duration, callback) {
-      console.log('settings during: ', this.state.phase);
-      console.log("time remaining", this.state.timeRemaining);
-      
       this.setState({
         timer: setInterval(() => this.timerTick(callback), 1000),
         timeRemaining: duration
@@ -135,14 +155,11 @@ class Monitor extends Component {
 
     viewNav = () => {
       const startBattle = this.state.tempCode ? () => startGame(this.state.tempCode, this.props.updateStore, undefined, 'battle') : undefined;
-      const startFree = this.state.tempCode ? () => { 
-        startGame(this.state.tempCode, this.props.updateStore, undefined, 'freeforall');
-        this.props.setFreeForAll();
-      } : undefined;
 
+      console.log("start", startBattle);
       switch(this.state.phase) {
         case "start":
-          return <Intro startBattle={startBattle} startFree={startFree} title="Aux Battle"/>
+          return <Intro startBattle={startBattle} title="Aux Battle"/>
         case "join":
           return <Join roomCode={this.state.roomCode} players={this.state.players}/>
         case "game start":
@@ -153,7 +170,6 @@ class Monitor extends Component {
           return <CategoryDisplay category={this.state.category}/>
         case "round-play":
           if (_.isEmpty(this.state.currentTrack) && this.state.trackURI && this.state.deviceId) {
-            console.log("starting playback");
             playTrackFromURI(this.state.trackURI, this.state.token, this.state.playerId);
           }
           return !_.isEmpty(this.state.currentTrack) && <Round currentBattler={this.state.currentBattler} category={this.state.category} {...this.state.currentTrack} playDuration={this.state.playDuration} roundNum={this.state.roundNum} round="play"/>
@@ -202,7 +218,6 @@ class Monitor extends Component {
     }
 
     render(){
-      console.log('monitor state', _.cloneDeep(this.state));
         return (
             <div className="monitor-master">
                 {!['round-play', 'round-over', 'game-over'].includes(this.state.phase) && 

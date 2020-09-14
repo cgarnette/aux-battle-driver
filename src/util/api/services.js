@@ -2,7 +2,7 @@ import {AUX_BATTLE_SERVER} from '../constants';
 
 export const startGame = (tempCode, updateState, redirectURL, gameType="battle") => {
 
-    const path = redirectURL ? `${AUX_BATTLE_SERVER}/callback?code=${tempCode}&redirectURI=${redirectURL}` : `${AUX_BATTLE_SERVER}/callback?code=${tempCode}`;
+    const path = redirectURL ? `${AUX_BATTLE_SERVER}/spotify/callback?code=${tempCode}&redirectURI=${redirectURL}` : `${AUX_BATTLE_SERVER}/spotify/callback?code=${tempCode}`;
 
     fetch(path, {method: 'GET'}).then(res => 
     res.json().then(response => {
